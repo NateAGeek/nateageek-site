@@ -1,0 +1,494 @@
+---
+export interface Props {
+  onBootComplete: string;
+  powerButtonSrc?: string;
+}
+
+const { onBootComplete, powerButtonSrc = '/imgs/power-button.gif' } = Astro.props;
+---
+
+<div class="intro-screen" id="introScreen">
+  <!-- Audio element for startup sound -->
+  <audio id="startupAudio" preload="auto">
+    <source src="/audios/computer-startup.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- Power Button Screen -->
+  <div class="power-screen" id="powerScreen">
+    <div class="crt-container">
+      <div class="power-button-container">
+        <button class="power-button" id="powerBtn">
+          <div class="power-symbol">⏻</div>
+        </button>
+        <div class="power-text">Click to power on NateAGeek's Machine</div>
+        <div class="power-status" id="powerStatus" style="display: none;">
+          <div class="status-text">Booting up...</div>
+          <div class="loading-dots">...</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BIOS Screen -->
+  <div class="bios-screen" id="biosScreen" style="display: none;">
+    <div class="bios-header">
+      <div class="bios-brand">NateAGeek Systems BIOS</div>
+      <div class="bios-logo">NAG</div>
+    </div>
+    
+    <div class="bios-content">
+      <div class="system-info" id="systemInfo">
+        <!-- Lines will be dynamically added here -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .intro-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: #000000;
+    z-index: 10000;
+    overflow: hidden;
+  }
+
+  /* Power Screen Styles */
+  .power-screen {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'MS Sans Serif', 'Courier New', monospace;
+  }
+
+  .crt-container {
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    padding: 60px;
+    box-shadow: none;
+    position: relative;
+    text-align: center;
+  }
+
+  .crt-container::before {
+    display: none;
+  }
+
+  .power-button-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .power-button {
+    background: #333333;
+    border: 3px outset #666666;
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    box-shadow: 
+      0 0 10px rgba(0, 0, 0, 0.5),
+      inset 0 0 10px rgba(255, 255, 255, 0.1);
+  }
+
+  .power-button:hover {
+    background: #444444;
+    border: 3px outset #777777;
+    box-shadow: 
+      0 0 15px rgba(255, 255, 255, 0.3),
+      inset 0 0 10px rgba(255, 255, 255, 0.2);
+  }
+
+  .power-button:active {
+    border: 3px inset #666666;
+    background: #222222;
+  }
+
+  .power-symbol {
+    font-size: 48px;
+    color: #ffffff;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+  }
+
+  .power-text {
+    color: #ffffff;
+    font-size: 16px;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    animation: pulse 2s infinite;
+  }
+
+  .power-status {
+    color: #ffffff;
+    font-size: 14px;
+    text-align: center;
+    margin-top: 10px;
+  }
+
+  .status-text {
+    margin-bottom: 5px;
+  }
+
+  .loading-dots {
+    animation: loadingDots 1.5s infinite;
+  }
+
+  @keyframes loadingDots {
+    0%, 20% { content: '.'; }
+    40% { content: '..'; }
+    60%, 100% { content: '...'; }
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 0.7; }
+    50% { opacity: 1; }
+  }
+
+  /* BIOS Screen Styles */
+  .bios-screen {
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+    background: #000000;
+    color: #ffffff;
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+    line-height: 1.2;
+  }
+
+  .bios-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #ffffff;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+  }
+
+  .bios-brand {
+    font-size: 24px;
+    font-weight: bold;
+    color: #ffffff;
+  }
+
+  .bios-logo {
+    font-size: 20px;
+    font-weight: bold;
+    color: #000000;
+    background: #ffffff;
+    padding: 5px 15px;
+    border: 2px solid #ffffff;
+  }
+
+  .bios-content {
+    max-width: 800px;
+  }
+
+  .system-info {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .bios-line {
+    color: #ffffff;
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+    min-height: 17px;
+  }
+
+  .memory-test {
+    color: #ffffff;
+    font-weight: bold;
+  }
+
+  .boot-message {
+    color: #ffffff;
+    margin-top: 20px;
+    text-align: center;
+    animation: blink 1s infinite;
+  }
+
+  .loading-message {
+    color: #ffffff;
+    margin-top: 20px;
+    text-align: center;
+    font-weight: bold;
+  }
+
+  @keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0.3; }
+  }
+
+  .intro-screen.fade-out {
+    animation: fadeOut 1s ease-out forwards;
+  }
+
+  @keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+  }
+
+  /* Add some authentic BIOS cursor effect */
+  .memory-test::after {
+    content: '_';
+    animation: cursor-blink 1s infinite;
+  }
+
+  @keyframes cursor-blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .bios-screen {
+      font-size: 12px;
+      padding: 15px;
+    }
+    
+    .bios-brand {
+      font-size: 18px;
+    }
+    
+    .bios-logo {
+      font-size: 16px;
+      padding: 3px 10px;
+    }
+
+    .crt-container {
+      padding: 40px;
+    }
+
+    .power-button {
+      width: 100px;
+      height: 100px;
+    }
+
+    .power-symbol {
+      font-size: 36px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .bios-screen {
+      font-size: 10px;
+      padding: 10px;
+    }
+    
+    .bios-brand {
+      font-size: 16px;
+    }
+    
+    .bios-logo {
+      font-size: 14px;
+      padding: 2px 8px;
+    }
+
+    .crt-container {
+      padding: 30px;
+    }
+
+    .power-button {
+      width: 80px;
+      height: 80px;
+    }
+
+    .power-symbol {
+      font-size: 28px;
+    }
+
+    .power-text {
+      font-size: 14px;
+    }
+  }
+</style>
+
+<script>
+  // Two-stage boot process: Power Button → Audio + Wait → BIOS Screen → Main Site
+  document.addEventListener('DOMContentLoaded', () => {
+    const powerBtn = document.getElementById('powerBtn') as HTMLButtonElement;
+    const powerScreen = document.getElementById('powerScreen');
+    const biosScreen = document.getElementById('biosScreen');
+    const startupAudio = document.getElementById('startupAudio') as HTMLAudioElement;
+    const powerText = document.querySelector('.power-text') as HTMLElement;
+    const powerStatus = document.getElementById('powerStatus');
+    
+    // Handle power button click
+    if (powerBtn && powerScreen && biosScreen && startupAudio) {
+      powerBtn.addEventListener('click', () => {
+        // Disable the button to prevent multiple clicks
+        powerBtn.disabled = true;
+        powerBtn.style.cursor = 'not-allowed';
+        powerBtn.style.opacity = '0.5';
+        
+        // Hide power text and show status
+        if (powerText && powerStatus) {
+          powerText.style.display = 'none';
+          powerStatus.style.display = 'block';
+        }
+        
+        // Play startup audio
+        startupAudio.play().catch(error => {
+          console.log('Audio playback failed:', error);
+          // Continue with boot process even if audio fails
+        });
+        
+        // Wait 5 seconds before showing BIOS screen
+        setTimeout(() => {
+          // Fade out power screen
+          powerScreen.style.transition = 'opacity 1s ease-out';
+          powerScreen.style.opacity = '0';
+          
+          setTimeout(() => {
+            powerScreen.style.display = 'none';
+            biosScreen.style.display = 'block';
+            // Show BIOS immediately without fade-in
+            startBiosSequence();
+          }, 1000);
+        }, 5000);
+      });
+    }
+
+    function startBiosSequence() {
+      const systemInfo = document.getElementById('systemInfo');
+      if (!systemInfo) return;
+
+      // Define all BIOS lines in order
+      const biosLines = [
+        'NateAGeek BIOS (C) 1995-2025 NateAGeek Technologies Inc.',
+        'GeekOS Firmware v3.14.159',
+        '',
+        'Processor : NateAGeek Quantum Brain Processor',
+        'Speed : 1337 MHz (Overclocked for Maximum Geekness)',
+        '',
+        'Memory Test : ', // Special line for memory counter - will be updated dynamically
+        'MEMORY_PLACEHOLDER', // Placeholder for memory completion message
+        '',
+        'Detecting Hardware...',
+        'PCIe Slot 1 : NateAGeek Graphics Accelerator',
+        'PCIe Slot 2 : Ethernet Controller',
+        'USB Port 1 : 1 Mouse Detected',
+        'USB Port 2 : 1 Keyboard Detected', 
+        'Serial Port : Retro Modem (56k, because we\'re fancy)',
+        '',
+        'HDD Primary Master   : Solid State Meme Drive',
+        'HDD Primary Slave    : None (We don\'t do slavery here)',
+        'HDD Secondary Master : GIF Storage Array',
+        '',
+        'Base Memory : 640K (Just like the good ol\' days)',
+        'Extended Memory : 31744K',
+        'Total Memory : 32384K (More than enough for HTML)',
+        '',
+        'Press F1 to enter GeekOS Setup, ESC to skip memory test',
+        'Initializing NateAGeek\'s Cyber Zone...'
+      ];
+
+      let currentLine = 0;
+      let memoryTestLineIndex = 6; // Index of the memory test line
+      let memoryPlaceholderIndex = 7; // Index where memory completion will go
+      let memoryCounter = 0;
+      const targetMemory = 69420;
+      let memoryTestLine: HTMLElement | null = null;
+      let isMemoryTestComplete = false;
+
+      // Function to add a line with typing effect
+      function addLine() {
+        if (currentLine >= biosLines.length || !systemInfo) {
+          // All lines printed, complete boot process
+          setTimeout(() => {
+            if ((window as any).bootComplete && typeof (window as any).bootComplete === 'function') {
+              (window as any).bootComplete();
+            }
+          }, 1500);
+          return;
+        }
+
+        // Skip the memory placeholder initially
+        if (currentLine === memoryPlaceholderIndex && !isMemoryTestComplete) {
+          currentLine++;
+          setTimeout(addLine, 50);
+          return;
+        }
+
+        const lineDiv = document.createElement('div');
+        lineDiv.className = 'bios-line';
+        
+        if (currentLine === memoryTestLineIndex) {
+          // Special handling for memory test line
+          lineDiv.className = 'bios-line memory-test';
+          lineDiv.innerHTML = 'Memory Test : <span id="memoryCounter">0</span>K';
+          memoryTestLine = lineDiv;
+          systemInfo.appendChild(lineDiv);
+          startMemoryTest();
+          currentLine++;
+          // Don't add next line immediately, wait for memory test to complete
+          return;
+        } else if (currentLine === memoryPlaceholderIndex) {
+          // Memory completion message
+          lineDiv.textContent = `Memory Test : ${targetMemory.toLocaleString()}K OK`;
+          lineDiv.className = 'bios-line memory-test';
+        } else if (currentLine === biosLines.length - 2) {
+          // Boot message with blinking - "Press F1 to enter GeekOS Setup..."
+          lineDiv.className = 'bios-line boot-message';
+          lineDiv.style.textAlign = 'center';
+          lineDiv.style.marginTop = '20px';
+          lineDiv.style.animation = 'blink 1s infinite';
+          lineDiv.textContent = biosLines[currentLine];
+        } else if (currentLine === biosLines.length - 1) {
+          // Loading message
+          lineDiv.className = 'bios-line loading-message';
+          lineDiv.style.textAlign = 'center';
+          lineDiv.style.marginTop = '20px';
+          lineDiv.style.fontWeight = 'bold';
+          lineDiv.textContent = biosLines[currentLine];
+        } else {
+          lineDiv.textContent = biosLines[currentLine];
+        }
+        
+        systemInfo.appendChild(lineDiv);
+        currentLine++;
+        
+        // Add next line after a short delay (faster old school feel)
+        setTimeout(addLine, 75); // Faster line printing
+      }
+
+      // Function to animate memory test
+      function startMemoryTest() {
+        const memoryCounterSpan = document.getElementById('memoryCounter');
+        if (!memoryCounterSpan) return;
+
+        const memoryInterval = setInterval(() => {
+          memoryCounter += 3072; // Faster memory counting
+          if (memoryCounter >= targetMemory) {
+            memoryCounter = targetMemory;
+            clearInterval(memoryInterval);
+            
+            // Memory test complete, now show completion message and continue
+            setTimeout(() => {
+              isMemoryTestComplete = true;
+              addLine(); // Continue with the rest of the boot sequence
+            }, 300);
+          }
+          memoryCounterSpan.textContent = memoryCounter.toLocaleString();
+        }, 40); // Very fast memory counting
+      }
+
+      // Start printing lines
+      addLine();
+    }
+  });
+</script>

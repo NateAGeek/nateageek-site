@@ -1,0 +1,54 @@
+---
+export interface Props {
+  content: Array<{
+    text?: string;
+    gifSrc?: string;
+    gifAlt?: string;
+  }>;
+  speed?: string;
+}
+
+const { 
+  content, 
+  speed = '10s'
+} = Astro.props;
+---
+
+<div class="marquee">
+  <div class="marquee-text" style={`animation-duration: ${speed}`}>
+    {content.map(item => (
+      <>
+        {item.gifSrc && <img src={item.gifSrc} alt={item.gifAlt || ''} class="marquee-gif" />}
+        {item.text && <span>{item.text}</span>}
+      </>
+    ))}
+  </div>
+</div>
+
+<style>
+  .marquee {
+    background: #000080;
+    color: #ffff00;
+    padding: 10px;
+    margin: 20px 0;
+    border: 2px inset #000080;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .marquee-text {
+    display: inline-block;
+    animation: scroll 10s linear infinite;
+  }
+
+  .marquee-gif {
+    height: 20px;
+    vertical-align: middle;
+    margin: 0 5px;
+  }
+
+  @keyframes scroll {
+    from { transform: translateX(100%); }
+    to { transform: translateX(-100%); }
+  }
+</style>

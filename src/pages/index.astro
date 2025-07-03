@@ -1,450 +1,148 @@
 ---
+import Layout from '../components/Layout.astro';
+import Window from '../components/Window.astro';
+import Marquee from '../components/Marquee.astro';
+import WelcomeBox from '../components/WelcomeBox.astro';
+import GifGallery from '../components/GifGallery.astro';
+import RetroButton from '../components/RetroButton.astro';
+import IntroScreen from '../components/IntroScreen.astro';
 
+// Data for the GIF gallery
+const gifData = [
+  { src: '/imgs/earthanim1.gif', alt: 'Spinning Earth Animation', caption: 'Spinning Earth' },
+  { src: '/imgs/science_rocks.gif', alt: 'Science Rocks Animation', caption: 'Science Rocks!' },
+  { src: '/imgs/lightningbanner.gif', alt: 'Lightning Banner', caption: 'Lightning Banner' },
+  { src: '/imgs/cool.gif', alt: 'Cool Animation', caption: 'Cool GIF' },
+  { src: '/imgs/science happy man.gif', alt: 'Happy Science Man', caption: 'Happy Science Man' },
+  { src: '/imgs/anime akin.gif', alt: 'Anime Animation', caption: 'Anime Akin' }
+];
+
+// Data for the marquee
+const marqueeContent = [
+  { gifSrc: '/imgs/cool.gif', gifAlt: 'Cool' },
+  { text: 'Welcome to the most RADICAL website on the World Wide Web!' },
+  { gifSrc: '/imgs/earthanim1.gif', gifAlt: 'Earth' },
+  { text: "Don't forget to sign my guestbook!" },
+  { gifSrc: '/imgs/science_rocks.gif', gifAlt: 'Science' },
+  { text: 'This site is best viewed in Netscape Navigator!' },
+  { gifSrc: '/imgs/cool.gif', gifAlt: 'Cool' }
+];
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Welcome to NateAGeek's Totally Rad Website!</title>
-		<style>
-			body {
-				background: #008080;
-				background-image: 
-					radial-gradient(circle at 25% 25%, #ff00ff 2px, transparent 2px),
-					radial-gradient(circle at 75% 75%, #ffff00 2px, transparent 2px);
-				background-size: 50px 50px;
-				animation: bgShift 10s ease infinite;
-				font-family: 'MS Sans Serif', 'Comic Sans MS', cursive, sans-serif;
-				margin: 0;
-				padding: 20px;
-				color: #000000;
-			}
+<Layout title="Welcome to NateAGeek's Totally Rad Website!">
+  <!-- Intro Screen - shown initially -->
+  <IntroScreen onBootComplete="bootComplete()" />
+  
+  <!-- Main Content - hidden initially -->
+  <div id="mainContent" style="display: none;">
+    <Window title="NateAGeek's Cyber Zone - Netscape Navigator">
+    
+    <h1 style="text-align: center; font-size: 3em; color: #ffff00; text-shadow: 3px 3px 6px #ff0080; animation: bounce 2s infinite; margin-bottom: 10px;">
+      <img src="/imgs/lightningbanner.gif" alt="Lightning" style="height: 50px; vertical-align: middle;" />
+      NateAGeek's Cyber Zone
+      <img src="/imgs/lightningbanner.gif" alt="Lightning" style="height: 50px; vertical-align: middle;" />
+    </h1>
+    
+    <div style="text-align: center; font-size: 1.5em; color: #00ffff; animation: blink 1s infinite; margin-bottom: 30px;">
+      *** ENTER AT YOUR OWN RISK ***
+    </div>
+    
+    <Marquee content={marqueeContent} />
+    
+    <WelcomeBox 
+      title="WELCOME TO MY HOMEPAGE!"
+      titleIconSrc="/imgs/science happy man.gif"
+      titleIconAlt="Happy"
+      content="Hey there, fellow web surfer! You've just stumbled upon the most AWESOME corner of cyberspace! This site is packed with cool stuff, radical GIFs, and totally tubular content!"
+    />
+    
+    <GifGallery gifs={gifData} />
+    
+    <div style="text-align: center; margin: 30px 0;">
+      <RetroButton 
+        text="CLICK FOR MUSIC!"
+        onClick="alert('Welcome to the 90s!')"
+        iconSrc="/imgs/cool gif.gif"
+        iconAlt="Music"
+      />
+      <RetroButton 
+        text="SIGN GUESTBOOK"
+        onClick="alert('Guestbook coming soon!')"
+        iconSrc="/imgs/imagine.gif"
+        iconAlt="Sign"
+      />
+      <RetroButton 
+        text="COOL LINKS"
+        onClick="alert('Under construction!')"
+        iconSrc="/imgs/einstein5.gif"
+        iconAlt="Links"
+      />
+    </div>
 
-			@keyframes bgShift {
-				0% { background-position: 0px 0px, 25px 25px; }
-				50% { background-position: 25px 25px, 0px 0px; }
-				100% { background-position: 0px 0px, 25px 25px; }
-			}
+    <div style="text-align: center; margin: 30px 0;">
+      <h3>
+        <img src="/imgs/cool gif.gif" alt="Construction" style="height: 25px; vertical-align: middle;" />
+        SITE UNDER CONSTRUCTION
+        <img src="/imgs/cool gif.gif" alt="Construction" style="height: 25px; vertical-align: middle;" />
+      </h3>
+      <div style="display: inline-block;">
+        <img src="/imgs/earthanim1.gif" alt="Under Construction" style="height: 40px;" />
+      </div>
+      <p>Check back soon for more AWESOME content!</p>
+    </div>
 
-			.container {
-				max-width: 800px;
-				margin: 0 auto;
-				background: #c0c0c0;
-				border: 2px outset #c0c0c0;
-				padding: 0;
-				box-shadow: 2px 2px 5px #808080;
-			}
+    <div style="background: #000000; color: #00ff00; padding: 10px; border: 2px solid #00ff00; font-family: 'Courier New', monospace; display: inline-block; margin: 10px;">
+      Visitor Count: 001337 (You are visitor #1337!)
+    </div>
 
-			.container.expanded {
-				max-width: 100%;
-				margin: 0;
-			}
+    <div style="text-align: center; margin-top: 40px; padding: 20px; background: rgba(0, 0, 0, 0.5); border: 2px solid #00ff00;">
+      <p>Created with love in 2025 but with 1995 vibes!</p>
+      <p>Best viewed in 800x600 resolution!</p>
+      <p>This site is WebTV compatible!</p>
+      <img src="/imgs/asianman.gif" alt="Asian Man GIF" style="max-width: 100px;" />
+    </div>
+    
+    </Window>
+  </div>
+</Layout>
 
-			.title-bar {
-				background: linear-gradient(90deg, #0080ff, #004080);
-				color: white;
-				padding: 2px;
-				display: flex;
-				justify-content: space-between;
-				align-items: center;
-				font-size: 11px;
-				font-weight: bold;
-			}
+<script>
+  function bootComplete() {
+    const introScreen = document.getElementById('introScreen');
+    const mainContent = document.getElementById('mainContent');
+    
+    if (introScreen && mainContent) {
+      // Add fade out class to intro screen
+      introScreen.classList.add('fade-out');
+      
+      // After animation completes, hide intro and show main content
+      setTimeout(() => {
+        introScreen.style.display = 'none';
+        mainContent.style.display = 'block';
+        
+        // Add a boot-up effect to the main content
+        mainContent.style.opacity = '0';
+        setTimeout(() => {
+          mainContent.style.transition = 'opacity 1s ease-in';
+          mainContent.style.opacity = '1';
+        }, 100);
+      }, 1000);
+    }
+  }
 
-			.title-text {
-				padding-left: 8px;
-				display: flex;
-				align-items: center;
-			}
+  // Make function global so it can be called from the IntroScreen component
+  (window as any).bootComplete = bootComplete;
+</script>
 
-			.window-controls {
-				display: flex;
-			}
+<style>
+  @keyframes bounce {
+    0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+    40% { transform: translateY(-10px); }
+    60% { transform: translateY(-5px); }
+  }
 
-			.window-btn {
-				width: 16px;
-				height: 14px;
-				background: #c0c0c0;
-				border: 1px outset #c0c0c0;
-				margin-left: 2px;
-				cursor: pointer;
-				display: flex;
-				align-items: center;
-				justify-content: center;
-				font-size: 8px;
-				font-weight: bold;
-				color: #000;
-			}
-
-			.window-btn:active {
-				border: 1px inset #c0c0c0;
-			}
-
-			.window-btn.minimize {
-				padding-bottom: 2px;
-			}
-
-			.window-btn.close:hover {
-				background: #ff0000;
-				color: white;
-			}
-
-			.content-area {
-				padding: 20px;
-			}
-
-			.menu-bar {
-				background: #c0c0c0;
-				border-bottom: 1px solid #808080;
-				padding: 2px;
-				font-size: 11px;
-			}
-
-			.menu-item {
-				display: inline-block;
-				padding: 4px 8px;
-				cursor: pointer;
-				border: 1px transparent;
-			}
-
-			.menu-item:hover {
-				border: 1px outset #c0c0c0;
-			}
-
-			.menu-item:active {
-				border: 1px inset #c0c0c0;
-			}
-
-			.minimized {
-				height: 30px;
-				overflow: hidden;
-			}
-
-			.minimized .content-area {
-				display: none;
-			}
-
-			h1 {
-				text-align: center;
-				font-size: 3em;
-				color: #ffff00;
-				text-shadow: 3px 3px 6px #ff0080;
-				animation: bounce 2s infinite;
-				margin-bottom: 10px;
-			}
-
-			@keyframes bounce {
-				0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-				40% { transform: translateY(-10px); }
-				60% { transform: translateY(-5px); }
-			}
-
-			.subtitle {
-				text-align: center;
-				font-size: 1.5em;
-				color: #00ffff;
-				animation: blink 1s infinite;
-				margin-bottom: 30px;
-			}
-
-			@keyframes blink {
-				0%, 50% { opacity: 1; }
-				51%, 100% { opacity: 0; }
-			}
-
-			.welcome-box {
-				background: #c0c0c0;
-				border: 2px inset #c0c0c0;
-				padding: 15px;
-				margin: 20px 0;
-				text-align: center;
-			}
-
-			.welcome-box h2 {
-				color: #ff0080;
-				text-shadow: 2px 2px 4px #808080;
-			}
-
-			.gif-gallery {
-				display: flex;
-				flex-wrap: wrap;
-				justify-content: center;
-				gap: 15px;
-				margin: 30px 0;
-			}
-
-			.gif-item {
-				border: 2px inset #c0c0c0;
-				padding: 5px;
-				background: #c0c0c0;
-				box-shadow: 1px 1px 3px #808080;
-			}
-
-			.gif-item img {
-				max-width: 150px;
-				max-height: 150px;
-				border: 1px solid #808080;
-				display: block;
-			}
-
-			.gif-caption {
-				text-align: center;
-				font-size: 12px;
-				color: #000000;
-				margin-top: 5px;
-				font-weight: bold;
-			}
-
-			.marquee {
-				background: #000080;
-				color: #ffff00;
-				padding: 10px;
-				margin: 20px 0;
-				border: 2px inset #000080;
-				overflow: hidden;
-				white-space: nowrap;
-			}
-
-			.marquee-text {
-				display: inline-block;
-				animation: scroll 10s linear infinite;
-			}
-
-			@keyframes scroll {
-				from { transform: translateX(100%); }
-				to { transform: translateX(-100%); }
-			}
-
-			.retro-button {
-				background: #c0c0c0;
-				border: 2px outset #c0c0c0;
-				color: #000000;
-				padding: 10px 20px;
-				font-family: 'MS Sans Serif', 'Comic Sans MS', cursive;
-				font-size: 1.2em;
-				font-weight: bold;
-				cursor: pointer;
-				margin: 10px;
-				transition: all 0.1s;
-			}
-
-			.retro-button:hover {
-				background: #e0e0e0;
-			}
-
-			.retro-button:active {
-				border: 2px inset #c0c0c0;
-				background: #a0a0a0;
-			}
-
-			.under-construction {
-				text-align: center;
-				margin: 30px 0;
-			}
-
-			.construction-gif {
-				animation: none;
-				display: inline-block;
-			}
-
-			.footer {
-				text-align: center;
-				margin-top: 40px;
-				padding: 20px;
-				background: rgba(0, 0, 0, 0.5);
-				border: 2px solid #00ff00;
-			}
-
-			.visitor-counter {
-				background: #000000;
-				color: #00ff00;
-				padding: 10px;
-				border: 2px solid #00ff00;
-				font-family: 'Courier New', monospace;
-				display: inline-block;
-				margin: 10px;
-			}
-		</style>
-	</head>
-	<body>
-		<div class="container" id="mainWindow">
-			<div class="title-bar">
-				<div class="title-text">
-					<img src="/imgs/earthanim1.gif" alt="Icon" style="height: 12px; margin-right: 4px;" />
-					NateAGeek's Cyber Zone - Netscape Navigator
-				</div>
-				<div class="window-controls">
-					<div class="window-btn minimize" onclick="minimizeWindow()" title="Minimize">_</div>
-					<div class="window-btn maximize" onclick="maximizeWindow()" title="Maximize">□</div>
-					<div class="window-btn close" onclick="closeWindow()" title="Close">×</div>
-				</div>
-			</div>
-			
-			<div class="menu-bar">
-				<span class="menu-item" onclick="alert('File menu - Under construction!')">File</span>
-				<span class="menu-item" onclick="alert('Edit menu - Under construction!')">Edit</span>
-				<span class="menu-item" onclick="alert('View menu - Under construction!')">View</span>
-				<span class="menu-item" onclick="alert('Go menu - Under construction!')">Go</span>
-				<span class="menu-item" onclick="alert('Bookmarks menu - Under construction!')">Bookmarks</span>
-				<span class="menu-item" onclick="alert('Help menu - Under construction!')">Help</span>
-			</div>
-
-			<div class="content-area">
-				<h1>
-					<img src="/imgs/lightningbanner.gif" alt="Lightning" style="height: 50px; vertical-align: middle;" />
-					NateAGeek's Cyber Zone
-					<img src="/imgs/lightningbanner.gif" alt="Lightning" style="height: 50px; vertical-align: middle;" />
-				</h1>
-			<div class="subtitle">*** ENTER AT YOUR OWN RISK ***</div>
-			
-			<div class="marquee">
-				<div class="marquee-text">
-					<img src="/imgs/cool.gif" alt="Cool" style="height: 20px; vertical-align: middle;" />
-					Welcome to the most RADICAL website on the World Wide Web!
-					<img src="/imgs/earthanim1.gif" alt="Earth" style="height: 20px; vertical-align: middle;" />
-					Don't forget to sign my guestbook!
-					<img src="/imgs/science_rocks.gif" alt="Science" style="height: 20px; vertical-align: middle;" />
-					This site is best viewed in Netscape Navigator!
-					<img src="/imgs/cool.gif" alt="Cool" style="height: 20px; vertical-align: middle;" />
-				</div>
-			</div>
-
-			<div class="welcome-box">
-				<h2>
-					<img src="/imgs/science happy man.gif" alt="Happy" style="height: 30px; vertical-align: middle;" />
-					WELCOME TO MY HOMEPAGE!
-					<img src="/imgs/science happy man.gif" alt="Happy" style="height: 30px; vertical-align: middle;" />
-				</h2>
-				<p>Hey there, fellow web surfer! You've just stumbled upon the most AWESOME corner of cyberspace! 
-				This site is packed with cool stuff, radical GIFs, and totally tubular content!</p>
-			</div>
-
-			<div class="gif-gallery">
-				<div class="gif-item">
-					<img src="/imgs/earthanim1.gif" alt="Spinning Earth Animation" />
-					<div class="gif-caption">Spinning Earth</div>
-				</div>
-				<div class="gif-item">
-					<img src="/imgs/science_rocks.gif" alt="Science Rocks Animation" />
-					<div class="gif-caption">Science Rocks!</div>
-				</div>
-				<div class="gif-item">
-					<img src="/imgs/lightningbanner.gif" alt="Lightning Banner" />
-					<div class="gif-caption">Lightning Banner</div>
-				</div>
-				<div class="gif-item">
-					<img src="/imgs/cool.gif" alt="Cool Animation" />
-					<div class="gif-caption">Cool GIF</div>
-				</div>
-				<div class="gif-item">
-					<img src="/imgs/science happy man.gif" alt="Happy Science Man" />
-					<div class="gif-caption">Happy Science Man</div>
-				</div>
-				<div class="gif-item">
-					<img src="/imgs/anime akin.gif" alt="Anime Animation" />
-					<div class="gif-caption">Anime Akin</div>
-				</div>
-			</div>
-
-			<div style="text-align: center; margin: 30px 0;">
-				<button class="retro-button" onclick="alert('Welcome to the 90s!')">
-					<img src="/imgs/cool gif.gif" alt="Music" style="height: 16px; vertical-align: middle;" />
-					CLICK FOR MUSIC!
-				</button>
-				<button class="retro-button" onclick="alert('Guestbook coming soon!')">
-					<img src="/imgs/imagine.gif" alt="Sign" style="height: 16px; vertical-align: middle;" />
-					SIGN GUESTBOOK
-				</button>
-				<button class="retro-button" onclick="alert('Under construction!')">
-					<img src="/imgs/einstein5.gif" alt="Links" style="height: 16px; vertical-align: middle;" />
-					COOL LINKS
-				</button>
-			</div>
-
-			<div class="under-construction">
-				<h3>
-					<img src="/imgs/cool gif.gif" alt="Construction" style="height: 25px; vertical-align: middle;" />
-					SITE UNDER CONSTRUCTION
-					<img src="/imgs/cool gif.gif" alt="Construction" style="height: 25px; vertical-align: middle;" />
-				</h3>
-				<div class="construction-gif">
-					<img src="/imgs/earthanim1.gif" alt="Under Construction" style="height: 40px;" />
-				</div>
-				<p>Check back soon for more AWESOME content!</p>
-			</div>
-
-			<div class="visitor-counter">
-				Visitor Count: 001337 (You are visitor #1337!)
-			</div>
-
-			<div class="footer">
-				<p>Created with love in 2025 but with 1995 vibes!</p>
-				<p>Best viewed in 800x600 resolution!</p>
-				<p>This site is WebTV compatible!</p>
-				<img src="/imgs/asianman.gif" alt="Asian Man GIF" style="max-width: 100px;" />
-			</div>
-			</div>
-		</div>
-
-		<script>
-			// Window control functions
-			function minimizeWindow() {
-				const mainWindow = document.getElementById('mainWindow');
-				if (mainWindow) {
-					mainWindow.classList.toggle('minimized');
-				}
-			}
-
-			function maximizeWindow() {
-				const mainWindow = document.getElementById('mainWindow');
-				if (mainWindow) {
-					mainWindow.classList.toggle('expanded');
-					
-					// Update the maximize button appearance
-					const maxBtn = document.querySelector('.maximize');
-					if (maxBtn) {
-						if (mainWindow.classList.contains('expanded')) {
-							maxBtn.innerHTML = '❐'; // Restore icon
-							maxBtn.setAttribute('title', 'Restore');
-						} else {
-							maxBtn.innerHTML = '□'; // Maximize icon
-							maxBtn.setAttribute('title', 'Maximize');
-						}
-					}
-				}
-			}
-
-			function closeWindow() {
-				if (confirm('Are you sure you want to close this rad website?')) {
-					document.body.innerHTML = '<div style="background: #008080; color: white; text-align: center; padding: 50px; font-family: MS Sans Serif;"><h1>Thanks for visiting!</h1><p>Window closed - Click refresh to reopen</p></div>';
-				}
-			}
-
-			// Classic 90s alert on page load
-			setTimeout(() => {
-				alert("Welcome to NateAGeek's Totally Rad Website! Don't forget to bookmark this page!");
-			}, 2000);
-
-			// Add some sparkle cursor effect
-			document.addEventListener('mousemove', function(e) {
-				const sparkle = document.createElement('div');
-				sparkle.innerHTML = '*';
-				sparkle.style.position = 'fixed';
-				sparkle.style.left = e.clientX + 'px';
-				sparkle.style.top = e.clientY + 'px';
-				sparkle.style.pointerEvents = 'none';
-				sparkle.style.fontSize = '20px';
-				sparkle.style.zIndex = '9999';
-				sparkle.style.color = '#ffff00';
-				document.body.appendChild(sparkle);
-				
-				setTimeout(() => {
-					sparkle.remove();
-				}, 1000);
-			});
-		</script>
-	</body>
-</html>
+  @keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+  }
+</style>

@@ -1,0 +1,60 @@
+---
+export interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <style>
+      body {
+        background: #008080;
+        background-image: 
+          radial-gradient(circle at 25% 25%, #ff00ff 2px, transparent 2px),
+          radial-gradient(circle at 75% 75%, #ffff00 2px, transparent 2px);
+        background-size: 50px 50px;
+        animation: bgShift 10s ease infinite;
+        font-family: 'MS Sans Serif', 'Comic Sans MS', cursive, sans-serif;
+        margin: 0;
+        padding: 20px;
+        color: #000000;
+      }
+
+      @keyframes bgShift {
+        0% { background-position: 0px 0px, 25px 25px; }
+        50% { background-position: 25px 25px, 0px 0px; }
+        100% { background-position: 0px 0px, 25px 25px; }
+      }
+    </style>
+  </head>
+  <body>
+    <slot />
+    
+    <script>
+      // Add some sparkle cursor effect
+      document.addEventListener('mousemove', function(e) {
+        const sparkle = document.createElement('div');
+        sparkle.innerHTML = '*';
+        sparkle.style.position = 'fixed';
+        sparkle.style.left = e.clientX + 'px';
+        sparkle.style.top = e.clientY + 'px';
+        sparkle.style.pointerEvents = 'none';
+        sparkle.style.fontSize = '20px';
+        sparkle.style.zIndex = '9999';
+        sparkle.style.color = '#ffff00';
+        document.body.appendChild(sparkle);
+        
+        setTimeout(() => {
+          sparkle.remove();
+        }, 1000);
+      });
+    </script>
+  </body>
+</html>
