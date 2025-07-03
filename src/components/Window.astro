@@ -4,7 +4,11 @@ export interface Props {
   iconSrc?: string;
   menuItems?: Array<{
     label: string;
-    onClick: string;
+    onClick?: string;
+    dropdown?: Array<{
+      label: string;
+      href: string;
+    }>;
   }>;
   windowId?: string;
 }
@@ -16,7 +20,15 @@ const {
     { label: 'File', onClick: "alert('File menu - Under construction!')" },
     { label: 'Edit', onClick: "alert('Edit menu - Under construction!')" },
     { label: 'View', onClick: "alert('View menu - Under construction!')" },
-    { label: 'Go', onClick: "alert('Go menu - Under construction!')" },
+    { 
+      label: 'Go', 
+      dropdown: [
+        { label: '🏠 Homepage', href: '/' },
+        { label: '📝 Blog Archive', href: '/blog' },
+        { label: '📧 Guestbook (Soon)', href: '#' },
+        { label: '🔗 Cool Links (Soon)', href: '#' }
+      ]
+    },
     { label: 'Bookmarks', onClick: "alert('Bookmarks menu - Under construction!')" },
     { label: 'Help', onClick: "alert('Help menu - Under construction!')" }
   ],
@@ -38,8 +50,30 @@ const {
   </div>
   
   <div class="menu-bar">
-    {menuItems.map(item => (
-      <span class="menu-item" onclick={item.onClick}>{item.label}</span>
+    {menuItems.map((item, index) => (
+      <div class="menu-item-container">
+        {item.dropdown ? (
+          <span 
+            class="menu-item dropdown-trigger" 
+            data-dropdown={`dropdown-${index}`}
+            onclick={`toggleDropdown('dropdown-${index}')`}
+          >
+            {item.label} ▼
+          </span>
+        ) : (
+          <span class="menu-item" onclick={item.onClick}>{item.label}</span>
+        )}
+        
+        {item.dropdown && (
+          <div class="dropdown-menu" id={`dropdown-${index}`}>
+            {item.dropdown.map(dropdownItem => (
+              <a href={dropdownItem.href} class="dropdown-item">
+                {dropdownItem.label}
+              </a>
+            ))}
+          </div>
+        )}
+      </div>
     ))}
   </div>
 
@@ -126,6 +160,13 @@ const {
     border-bottom: 1px solid #808080;
     padding: 2px;
     font-size: 11px;
+    display: flex;
+    position: relative;
+  }
+
+  .menu-item-container {
+    position: relative;
+    display: inline-block;
   }
 
   .menu-item {
@@ -141,6 +182,49 @@ const {
 
   .menu-item:active {
     border: 1px inset #c0c0c0;
+  }
+
+  .dropdown-trigger {
+    user-select: none;
+  }
+
+  .dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: #c0c0c0;
+    border: 2px outset #c0c0c0;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    min-width: 180px;
+    z-index: 1000;
+  }
+
+  .dropdown-menu.show {
+    display: block;
+  }
+
+  .dropdown-item {
+    display: block;
+    padding: 6px 12px;
+    text-decoration: none;
+    color: #000000;
+    font-size: 11px;
+    border-bottom: 1px solid #a0a0a0;
+    cursor: pointer;
+  }
+
+  .dropdown-item:last-child {
+    border-bottom: none;
+  }
+
+  .dropdown-item:hover {
+    background: #0080ff;
+    color: #ffffff;
+  }
+
+  .dropdown-item:active {
+    background: #004080;
   }
 
   .minimized {
@@ -181,14 +265,42 @@ const {
     }
   }
 
-  function closeWindow(windowId: any) {
+  function closeWindow(windowId: string) {
     if (confirm('Are you sure you want to close this rad website?')) {
       document.body.innerHTML = '<div style="background: #008080; color: white; text-align: center; padding: 50px; font-family: MS Sans Serif;"><h1>Thanks for visiting!</h1><p>Window closed - Click refresh to reopen</p></div>';
     }
   }
 
+  function toggleDropdown(dropdownId: string) {
+    // Close all other dropdowns first
+    const allDropdowns = document.querySelectorAll('.dropdown-menu');
+    allDropdowns.forEach(dropdown => {
+      if (dropdown.id !== dropdownId) {
+        dropdown.classList.remove('show');
+      }
+    });
+
+    // Toggle the clicked dropdown
+    const dropdown = document.getElementById(dropdownId);
+    if (dropdown) {
+      dropdown.classList.toggle('show');
+    }
+  }
+
+  // Close dropdowns when clicking outside
+  document.addEventListener('click', (event) => {
+    const target = event.target as HTMLElement;
+    if (!target.closest('.menu-item-container')) {
+      const allDropdowns = document.querySelectorAll('.dropdown-menu');
+      allDropdowns.forEach(dropdown => {
+        dropdown.classList.remove('show');
+      });
+    }
+  });
+
   // Make functions global so they can be called from onclick attributes
-  window.minimizeWindow = minimizeWindow;
-  window.maximizeWindow = maximizeWindow;
-  window.closeWindow = closeWindow;
+  (window as any).minimizeWindow = minimizeWindow;
+  (window as any).maximizeWindow = maximizeWindow;
+  (window as any).closeWindow = closeWindow;
+  (window as any).toggleDropdown = toggleDropdown;
 </script>
