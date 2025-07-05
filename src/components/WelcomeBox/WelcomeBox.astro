@@ -1,4 +1,6 @@
 ---
+import './WelcomeBox.css';
+
 export interface Props {
   title: string;
   titleIconSrc?: string;
@@ -17,27 +19,3 @@ const { title, titleIconSrc, titleIconAlt, content } = Astro.props;
   </h2>
   <p>{content}</p>
 </div>
-
-<style>
-  .welcome-box {
-    background: #c0c0c0;
-    border: 2px inset #c0c0c0;
-    padding: 15px;
-    margin: 20px 0;
-    text-align: center;
-  }
-
-  .welcome-box h2 {
-    color: #ff0080;
-    text-shadow: 2px 2px 4px #808080;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-  }
-
-  .title-icon {
-    height: 30px;
-    vertical-align: middle;
-  }
-</style>

@@ -1,0 +1,93 @@
+---
+import Layout from '../components/Layout/Layout.astro';
+import Window from '../components/Window/Window.astro';
+import { getCollection } from 'astro:content';
+import './blog.css';
+
+const allBlogPosts = await getCollection('blog');
+const sortedPosts = allBlogPosts
+  .filter(post => !post.data.draft)
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+---
+
+<Layout title="NateAGeek's Blog Archive">
+  <Window title="NateAGeek's Blog Archive - Netscape Navigator">
+    
+    <div class="blog-header">
+      <h1>
+        <img src="/imgs/cool.gif" alt="Cool" style="height: 30px; vertical-align: middle;" />
+        Welcome to My Blog Archive!
+        <img src="/imgs/cool.gif" alt="Cool" style="height: 30px; vertical-align: middle;" />
+      </h1>
+      <p class="tagline">The most RADICAL collection of thoughts on the World Wide Web!</p>
+    </div>
+
+    <div class="blog-stats">
+      <div class="stat-box">
+        📝 Total Posts: <strong>{sortedPosts.length}</strong>
+      </div>
+      <div class="stat-box">
+        🔥 Hot Takes: <strong>Unlimited</strong>
+      </div>
+      <div class="stat-box">
+        💾 Nostalgia Level: <strong>Maximum</strong>
+      </div>
+    </div>
+
+    <div class="blog-list">
+      {sortedPosts.map((post) => (
+        <article class="blog-post-card">
+          <div class="post-header">
+            <h2>
+              <a href={`/blog/${post.slug}/`} class="post-title">
+                {post.data.title}
+              </a>
+            </h2>
+            <div class="post-meta">
+              📅 {post.data.pubDate.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+              })}
+            </div>
+          </div>
+          
+          <div class="post-content">
+            <p class="post-description">{post.data.description}</p>
+            
+            {post.data.tags.length > 0 && (
+              <div class="post-tags">
+                <span class="tags-label">🏷️ Tags:</span>
+                {post.data.tags.map((tag) => (
+                  <span class="tag">{tag}</span>
+                ))}
+              </div>
+            )}
+          </div>
+          
+          <div class="post-footer">
+            <a href={`/blog/${post.slug}/`} class="read-more-btn">
+              <img src="/imgs/cool gif.gif" alt="Cool" style="height: 16px; vertical-align: middle;" />
+              Read Full Post
+              <img src="/imgs/cool gif.gif" alt="Cool" style="height: 16px; vertical-align: middle;" />
+            </a>
+          </div>
+        </article>
+      ))}
+    </div>
+
+    <div class="blog-footer">
+      <p>
+        <img src="/imgs/lightningbanner.gif" alt="Lightning" style="height: 20px; vertical-align: middle;" />
+        Want to be notified of new posts? Sign the guestbook with your email!
+        <img src="/imgs/lightningbanner.gif" alt="Lightning" style="height: 20px; vertical-align: middle;" />
+      </p>
+      <div class="back-home">
+        <a href="/" class="home-btn">
+          🏠 Back to Homepage
+        </a>
+      </div>
+    </div>
+
+  </Window>
+</Layout>

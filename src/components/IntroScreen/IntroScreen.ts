@@ -1,0 +1,176 @@
+// Two-stage boot process: Power Button → Audio + Wait → BIOS Screen → Main Site
+document.addEventListener('DOMContentLoaded', () => {
+  const powerBtn = document.getElementById('powerBtn') as HTMLButtonElement;
+  const powerScreen = document.getElementById('powerScreen');
+  const biosScreen = document.getElementById('biosScreen');
+  const startupAudio = document.getElementById('startupAudio') as HTMLAudioElement;
+  const powerText = document.querySelector('.power-text') as HTMLElement;
+  const powerStatus = document.getElementById('powerStatus');
+  
+  // Handle power button click
+  if (powerBtn && powerScreen && biosScreen && startupAudio) {
+    powerBtn.addEventListener('click', () => {
+      // Disable the button to prevent multiple clicks
+      powerBtn.disabled = true;
+      powerBtn.style.cursor = 'not-allowed';
+      powerBtn.style.opacity = '0.5';
+      
+      // Hide power text and show status
+      if (powerText && powerStatus) {
+        powerText.style.display = 'none';
+        powerStatus.style.display = 'block';
+      }
+      
+      // Play startup audio
+      startupAudio.play().catch(error => {
+        console.log('Audio playback failed:', error);
+        // Continue with boot process even if audio fails
+      });
+      
+      // Wait 5 seconds before showing BIOS screen
+      setTimeout(() => {
+        // Fade out power screen
+        powerScreen.style.transition = 'opacity 1s ease-out';
+        powerScreen.style.opacity = '0';
+        
+        setTimeout(() => {
+          powerScreen.style.display = 'none';
+          biosScreen.style.display = 'block';
+          // Show BIOS immediately without fade-in
+          startBiosSequence();
+        }, 1000);
+      }, 5000);
+    });
+  }
+
+  function startBiosSequence() {
+    const systemInfo = document.getElementById('systemInfo');
+    if (!systemInfo) return;
+
+    // Define all BIOS lines in order
+    const biosLines = [
+      'NateAGeek BIOS (C) 1995-2025 NateAGeek Technologies Inc.',
+      'GeekOS Firmware v3.14.159',
+      '',
+      'Processor : NateAGeek Quantum Brain Processor',
+      'Speed : 1337 MHz (Overclocked for Maximum Geekness)',
+      '',
+      'Memory Test : ', // Special line for memory counter - will be updated dynamically
+      'MEMORY_PLACEHOLDER', // Placeholder for memory completion message
+      '',
+      'Detecting Hardware...',
+      'PCIe Slot 1 : NateAGeek Graphics Accelerator',
+      'PCIe Slot 2 : Ethernet Controller',
+      'USB Port 1 : 1 Mouse Detected',
+      'USB Port 2 : 1 Keyboard Detected', 
+      'Serial Port : Retro Modem (56k, because we\'re fancy)',
+      '',
+      'HDD Primary Master   : Solid State Meme Drive',
+      'HDD Primary Slave    : None (We don\'t do slavery here)',
+      'HDD Secondary Master : GIF Storage Array',
+      '',
+      'Base Memory : 640K (Just like the good ol\' days)',
+      'Extended Memory : 31744K',
+      'Total Memory : 32384K (More than enough for HTML)',
+      '',
+      'Press F1 to enter GeekOS Setup, ESC to skip memory test',
+      'Initializing NateAGeek\'s Cyber Zone...'
+    ];
+
+    let currentLine = 0;
+    let memoryTestLineIndex = 6; // Index of the memory test line
+    let memoryPlaceholderIndex = 7; // Index where memory completion will go
+    let memoryCounter = 0;
+    const targetMemory = 69420;
+    let memoryTestLine: HTMLElement | null = null;
+    let isMemoryTestComplete = false;
+
+    // Function to add a line with typing effect
+    function addLine() {
+      if (currentLine >= biosLines.length || !systemInfo) {
+        // All lines printed, complete boot process
+        setTimeout(() => {
+          if ((window as any).bootComplete && typeof (window as any).bootComplete === 'function') {
+            (window as any).bootComplete();
+          }
+        }, 1500);
+        return;
+      }
+
+      // Skip the memory placeholder initially
+      if (currentLine === memoryPlaceholderIndex && !isMemoryTestComplete) {
+        currentLine++;
+        setTimeout(addLine, 50);
+        return;
+      }
+
+      const lineDiv = document.createElement('div');
+      lineDiv.className = 'bios-line';
+      
+      if (currentLine === memoryTestLineIndex) {
+        // Special handling for memory test line
+        lineDiv.className = 'bios-line memory-test';
+        lineDiv.innerHTML = 'Memory Test : <span id="memoryCounter">0</span>K';
+        memoryTestLine = lineDiv;
+        systemInfo.appendChild(lineDiv);
+        startMemoryTest();
+        currentLine++;
+        // Don't add next line immediately, wait for memory test to complete
+        return;
+      } else if (currentLine === memoryPlaceholderIndex) {
+        // Memory completion message
+        lineDiv.textContent = `Memory Test : ${targetMemory.toLocaleString()}K OK`;
+        lineDiv.className = 'bios-line memory-test';
+      } else if (currentLine === biosLines.length - 2) {
+        // Boot message with blinking - "Press F1 to enter GeekOS Setup..."
+        lineDiv.className = 'bios-line boot-message';
+        lineDiv.style.textAlign = 'center';
+        lineDiv.style.marginTop = '20px';
+        lineDiv.style.animation = 'blink 1s infinite';
+        lineDiv.textContent = biosLines[currentLine];
+      } else if (currentLine === biosLines.length - 1) {
+        // Loading message
+        lineDiv.className = 'bios-line loading-message';
+        lineDiv.style.textAlign = 'center';
+        lineDiv.style.marginTop = '20px';
+        lineDiv.style.fontWeight = 'bold';
+        lineDiv.textContent = biosLines[currentLine];
+      } else {
+        lineDiv.textContent = biosLines[currentLine];
+      }
+      
+      systemInfo.appendChild(lineDiv);
+      currentLine++;
+      
+      // Add next line after a short delay (faster old school feel)
+      setTimeout(addLine, 75); // Faster line printing
+    }
+
+    // Function to animate memory test
+    function startMemoryTest() {
+      const memoryCounterSpan = document.getElementById('memoryCounter');
+      if (!memoryCounterSpan) return;
+
+      const memoryInterval = setInterval(() => {
+        memoryCounter += 3072; // Faster memory counting
+        if (memoryCounter >= targetMemory) {
+          memoryCounter = targetMemory;
+          clearInterval(memoryInterval);
+          
+          // Memory test complete, now show completion message and continue
+          setTimeout(() => {
+            isMemoryTestComplete = true;
+            addLine(); // Continue with the rest of the boot sequence
+          }, 300);
+        }
+        memoryCounterSpan.textContent = memoryCounter.toLocaleString();
+      }, 40); // Very fast memory counting
+    }
+
+    // Start printing lines
+    addLine();
+  }
+});
+
+// Export to make this a proper module
+export default {};

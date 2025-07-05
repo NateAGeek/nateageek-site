@@ -1,0 +1,25 @@
+.marquee {
+  background: #000080;
+  color: #ffff00;
+  padding: 10px;
+  margin: 20px 0;
+  border: 2px inset #000080;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.marquee-text {
+  display: inline-block;
+  animation: scroll 10s linear infinite;
+}
+
+.marquee-gif {
+  height: 20px;
+  vertical-align: middle;
+  margin: 0 5px;
+}
+
+@keyframes scroll {
+  from { transform: translateX(100%); }
+  to { transform: translateX(-100%); }
+}

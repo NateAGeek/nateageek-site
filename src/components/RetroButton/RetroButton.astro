@@ -1,0 +1,17 @@
+---
+import './RetroButton.css';
+
+export interface Props {
+  text: string;
+  onClick?: string;
+  iconSrc?: string;
+  iconAlt?: string;
+}
+
+const { text, onClick, iconSrc, iconAlt } = Astro.props;
+---
+
+<button class="retro-button" onclick={onClick}>
+  {iconSrc && <img src={iconSrc} alt={iconAlt || ''} class="button-icon" />}
+  {text}
+</button>

@@ -1,0 +1,18 @@
+body {
+  background: #008080;
+  background-image: 
+    radial-gradient(circle at 25% 25%, #ff00ff 2px, transparent 2px),
+    radial-gradient(circle at 75% 75%, #ffff00 2px, transparent 2px);
+  background-size: 50px 50px;
+  animation: bgShift 10s ease infinite;
+  font-family: 'MS Sans Serif', 'Comic Sans MS', cursive, sans-serif;
+  margin: 0;
+  padding: 20px;
+  color: #000000;
+}
+
+@keyframes bgShift {
+  0% { background-position: 0px 0px, 25px 25px; }
+  50% { background-position: 25px 25px, 0px 0px; }
+  100% { background-position: 0px 0px, 25px 25px; }
+}

@@ -1,0 +1,51 @@
+---
+import './IntroScreen.css';
+
+export interface Props {
+  onBootComplete: string;
+  powerButtonSrc?: string;
+}
+
+const { onBootComplete, powerButtonSrc = '/imgs/power-button.gif' } = Astro.props;
+---
+
+<div class="intro-screen" id="introScreen">
+  <!-- Audio element for startup sound -->
+  <audio id="startupAudio" preload="auto">
+    <source src="/audios/computer-startup.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- Power Button Screen -->
+  <div class="power-screen" id="powerScreen">
+    <div class="crt-container">
+      <div class="power-button-container">
+        <button class="power-button" id="powerBtn">
+          <div class="power-symbol">⏻</div>
+        </button>
+        <div class="power-text">Click to power on NateAGeek's Machine</div>
+        <div class="power-status" id="powerStatus" style="display: none;">
+          <div class="status-text">Booting up...</div>
+          <div class="loading-dots">...</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BIOS Screen -->
+  <div class="bios-screen" id="biosScreen" style="display: none;">
+    <div class="bios-header">
+      <div class="bios-brand">NateAGeek Systems BIOS</div>
+      <div class="bios-logo">NAG</div>
+    </div>
+    
+    <div class="bios-content">
+      <div class="system-info" id="systemInfo">
+        <!-- Lines will be dynamically added here -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  import "./IntroScreen.ts";
+</script>

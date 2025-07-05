@@ -1,0 +1,153 @@
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  background: #c0c0c0;
+  border: 2px outset #c0c0c0;
+  padding: 0;
+  box-shadow: 2px 2px 5px #808080;
+}
+
+.container.expanded {
+  max-width: 100%;
+  margin: 0;
+}
+
+.title-bar {
+  background: linear-gradient(90deg, #0080ff, #004080);
+  color: white;
+  padding: 2px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11px;
+  font-weight: bold;
+}
+
+.title-text {
+  padding-left: 8px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.title-icon {
+  height: 12px;
+}
+
+.window-controls {
+  display: flex;
+}
+
+.window-btn {
+  width: 16px;
+  height: 14px;
+  background: #c0c0c0;
+  border: 1px outset #c0c0c0;
+  margin-left: 2px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 8px;
+  font-weight: bold;
+  color: #000;
+}
+
+.window-btn:active {
+  border: 1px inset #c0c0c0;
+}
+
+.window-btn.minimize {
+  padding-bottom: 2px;
+}
+
+.window-btn.close:hover {
+  background: #ff0000;
+  color: white;
+}
+
+.content-area {
+  padding: 20px;
+}
+
+.menu-bar {
+  background: #c0c0c0;
+  border-bottom: 1px solid #808080;
+  padding: 2px;
+  font-size: 11px;
+  display: flex;
+  position: relative;
+}
+
+.menu-item-container {
+  position: relative;
+  display: inline-block;
+}
+
+.menu-item {
+  display: inline-block;
+  padding: 4px 8px;
+  cursor: pointer;
+  border: 1px transparent;
+}
+
+.menu-item:hover {
+  border: 1px outset #c0c0c0;
+}
+
+.menu-item:active {
+  border: 1px inset #c0c0c0;
+}
+
+.dropdown-trigger {
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: #c0c0c0;
+  border: 2px outset #c0c0c0;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+  min-width: 180px;
+  z-index: 1000;
+}
+
+.dropdown-menu.show {
+  display: block;
+}
+
+.dropdown-item {
+  display: block;
+  padding: 6px 12px;
+  text-decoration: none;
+  color: #000000;
+  font-size: 11px;
+  border-bottom: 1px solid #a0a0a0;
+  cursor: pointer;
+}
+
+.dropdown-item:last-child {
+  border-bottom: none;
+}
+
+.dropdown-item:hover {
+  background: #0080ff;
+  color: #ffffff;
+}
+
+.dropdown-item:active {
+  background: #004080;
+}
+
+.minimized {
+  height: 30px;
+  overflow: hidden;
+}
+
+.minimized .content-area {
+  display: none;
+}

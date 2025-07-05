@@ -1,0 +1,89 @@
+---
+import './Window.css';
+
+export interface Props {
+  title: string;
+  iconSrc?: string;
+  menuItems?: Array<{
+    label: string;
+    onClick?: string;
+    dropdown?: Array<{
+      label: string;
+      href: string;
+    }>;
+  }>;
+  windowId?: string;
+}
+
+const { 
+  title, 
+  iconSrc = '/imgs/earthanim1.gif', 
+  menuItems = [
+    { label: 'File', onClick: "alert('File menu - Under construction!')" },
+    { label: 'Edit', onClick: "alert('Edit menu - Under construction!')" },
+    { label: 'View', onClick: "alert('View menu - Under construction!')" },
+    { 
+      label: 'Go', 
+      dropdown: [
+        { label: '🏠 Homepage', href: '/' },
+        { label: '📝 Blog Archive', href: '/blog' },
+        { label: '📧 Guestbook (Soon)', href: '#' },
+        { label: '🔗 Cool Links (Soon)', href: '#' }
+      ]
+    },
+    { label: 'Bookmarks', onClick: "alert('Bookmarks menu - Under construction!')" },
+    { label: 'Help', onClick: "alert('Help menu - Under construction!')" }
+  ],
+  windowId = 'mainWindow'
+} = Astro.props;
+---
+
+<div class="container" id={windowId}>
+  <div class="title-bar">
+    <div class="title-text">
+      <img src={iconSrc} alt="Icon" class="title-icon" />
+      {title}
+    </div>
+    <div class="window-controls">
+      <div class="window-btn minimize" onclick={`minimizeWindow('${windowId}')`} title="Minimize">_</div>
+      <div class="window-btn maximize" onclick={`maximizeWindow('${windowId}')`} title="Maximize">□</div>
+      <div class="window-btn close" onclick={`closeWindow('${windowId}')`} title="Close">×</div>
+    </div>
+  </div>
+  
+  <div class="menu-bar">
+    {menuItems.map((item, index) => (
+      <div class="menu-item-container">
+        {item.dropdown ? (
+          <span 
+            class="menu-item dropdown-trigger" 
+            data-dropdown={`dropdown-${index}`}
+            onclick={`toggleDropdown('dropdown-${index}')`}
+          >
+            {item.label} ▼
+          </span>
+        ) : (
+          <span class="menu-item" onclick={item.onClick}>{item.label}</span>
+        )}
+        
+        {item.dropdown && (
+          <div class="dropdown-menu" id={`dropdown-${index}`}>
+            {item.dropdown.map(dropdownItem => (
+              <a href={dropdownItem.href} class="dropdown-item">
+                {dropdownItem.label}
+              </a>
+            ))}
+          </div>
+        )}
+      </div>
+    ))}
+  </div>
+
+  <div class="content-area">
+    <slot />
+  </div>
+</div>
+
+<script>
+  import './Window.ts';
+</script>

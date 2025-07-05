@@ -1,11 +1,12 @@
 ---
-import Layout from '../components/Layout.astro';
-import Window from '../components/Window.astro';
-import Marquee from '../components/Marquee.astro';
-import WelcomeBox from '../components/WelcomeBox.astro';
-import GifGallery from '../components/GifGallery.astro';
-import RetroButton from '../components/RetroButton.astro';
-import IntroScreen from '../components/IntroScreen.astro';
+import Layout from '../components/Layout/Layout.astro';
+import Window from '../components/Window/Window.astro';
+import Marquee from '../components/Marquee/Marquee.astro';
+import WelcomeBox from '../components/WelcomeBox/WelcomeBox.astro';
+import GifGallery from '../components/GifGallery/GifGallery.astro';
+import RetroButton from '../components/RetroButton/RetroButton.astro';
+import IntroScreen from '../components/IntroScreen/IntroScreen.astro';
+import './index.css';
 
 // Data for the GIF gallery
 const gifData = [
@@ -38,9 +39,9 @@ const marqueeContent = [
     <Window title="NateAGeek's Cyber Zone - Netscape Navigator">
     
     <h1 style="text-align: center; font-size: 3em; color: #ffff00; text-shadow: 3px 3px 6px #ff0080; animation: bounce 2s infinite; margin-bottom: 10px;">
-      <img src="/imgs/lightningbanner.gif" alt="Lightning" style="height: 50px; vertical-align: middle;" />
+      <img src="/imgs/lightningbanner.gif" alt="Lightning" style="height: 50px; width: 100%; vertical-align: middle;" />
       NateAGeek's Cyber Zone
-      <img src="/imgs/lightningbanner.gif" alt="Lightning" style="height: 50px; vertical-align: middle;" />
+      <img src="/imgs/lightningbanner.gif" alt="Lightning" style="height: 50px; width: 100%; vertical-align: middle;" />
     </h1>
     
     <div style="text-align: center; font-size: 1.5em; color: #00ffff; animation: blink 1s infinite; margin-bottom: 30px;">
@@ -107,42 +108,5 @@ const marqueeContent = [
 </Layout>
 
 <script>
-  function bootComplete() {
-    const introScreen = document.getElementById('introScreen');
-    const mainContent = document.getElementById('mainContent');
-    
-    if (introScreen && mainContent) {
-      // Add fade out class to intro screen
-      introScreen.classList.add('fade-out');
-      
-      // After animation completes, hide intro and show main content
-      setTimeout(() => {
-        introScreen.style.display = 'none';
-        mainContent.style.display = 'block';
-        
-        // Add a boot-up effect to the main content
-        mainContent.style.opacity = '0';
-        setTimeout(() => {
-          mainContent.style.transition = 'opacity 1s ease-in';
-          mainContent.style.opacity = '1';
-        }, 100);
-      }, 1000);
-    }
-  }
-
-  // Make function global so it can be called from the IntroScreen component
-  (window as any).bootComplete = bootComplete;
+  import './home.ts';
 </script>
-
-<style>
-  @keyframes bounce {
-    0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-    40% { transform: translateY(-10px); }
-    60% { transform: translateY(-5px); }
-  }
-
-  @keyframes blink {
-    0%, 50% { opacity: 1; }
-    51%, 100% { opacity: 0; }
-  }
-</style>
