@@ -4,22 +4,13 @@ document.addEventListener('DOMContentLoaded', () => {
   const powerScreen = document.getElementById('powerScreen');
   const biosScreen = document.getElementById('biosScreen');
   const startupAudio = document.getElementById('startupAudio') as HTMLAudioElement;
-  const powerText = document.querySelector('.power-text') as HTMLElement;
-  const powerStatus = document.getElementById('powerStatus');
   
   // Handle power button click
   if (powerBtn && powerScreen && biosScreen && startupAudio) {
     powerBtn.addEventListener('click', () => {
       // Disable the button to prevent multiple clicks
       powerBtn.disabled = true;
-      powerBtn.style.cursor = 'not-allowed';
-      powerBtn.style.opacity = '0.5';
-      
-      // Hide power text and show status
-      if (powerText && powerStatus) {
-        powerText.style.display = 'none';
-        powerStatus.style.display = 'block';
-      }
+      powerBtn.style.display = 'none';
       
       // Play startup audio
       startupAudio.play().catch(error => {
@@ -28,11 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
       
       // Wait 5 seconds before showing BIOS screen
-      setTimeout(() => {
-        // Fade out power screen
-        powerScreen.style.transition = 'opacity 1s ease-out';
-        powerScreen.style.opacity = '0';
-        
+      setTimeout(() => {        
         setTimeout(() => {
           powerScreen.style.display = 'none';
           biosScreen.style.display = 'block';
@@ -56,7 +43,6 @@ document.addEventListener('DOMContentLoaded', () => {
       'Speed : 1337 MHz (Overclocked for Maximum Geekness)',
       '',
       'Memory Test : ', // Special line for memory counter - will be updated dynamically
-      'MEMORY_PLACEHOLDER', // Placeholder for memory completion message
       '',
       'Detecting Hardware...',
       'PCIe Slot 1 : NateAGeek Graphics Accelerator',
@@ -79,10 +65,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let currentLine = 0;
     let memoryTestLineIndex = 6; // Index of the memory test line
-    let memoryPlaceholderIndex = 7; // Index where memory completion will go
     let memoryCounter = 0;
     const targetMemory = 69420;
-    let memoryTestLine: HTMLElement | null = null;
     let isMemoryTestComplete = false;
 
     // Function to add a line with typing effect
@@ -97,13 +81,6 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
-      // Skip the memory placeholder initially
-      if (currentLine === memoryPlaceholderIndex && !isMemoryTestComplete) {
-        currentLine++;
-        setTimeout(addLine, 50);
-        return;
-      }
-
       const lineDiv = document.createElement('div');
       lineDiv.className = 'bios-line';
       
@@ -111,16 +88,11 @@ document.addEventListener('DOMContentLoaded', () => {
         // Special handling for memory test line
         lineDiv.className = 'bios-line memory-test';
         lineDiv.innerHTML = 'Memory Test : <span id="memoryCounter">0</span>K';
-        memoryTestLine = lineDiv;
         systemInfo.appendChild(lineDiv);
         startMemoryTest();
         currentLine++;
         // Don't add next line immediately, wait for memory test to complete
         return;
-      } else if (currentLine === memoryPlaceholderIndex) {
-        // Memory completion message
-        lineDiv.textContent = `Memory Test : ${targetMemory.toLocaleString()}K OK`;
-        lineDiv.className = 'bios-line memory-test';
       } else if (currentLine === biosLines.length - 2) {
         // Boot message with blinking - "Press F1 to enter GeekOS Setup..."
         lineDiv.className = 'bios-line boot-message';
@@ -171,6 +143,3 @@ document.addEventListener('DOMContentLoaded', () => {
     addLine();
   }
 });
-
-// Export to make this a proper module
-export default {};
