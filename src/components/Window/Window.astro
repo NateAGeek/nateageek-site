@@ -1,5 +1,6 @@
 ---
 import './Window.css';
+import StartMenu from '../StartMenu/StartMenu.astro';
 
 export interface Props {
   title: string;
@@ -19,20 +20,30 @@ const {
   title, 
   iconSrc = '/imgs/earthanim1.gif', 
   menuItems = [
-    { label: 'File', onClick: "alert('File menu - Under construction!')" },
+    {
+      label: 'File',
+      dropdown: [
+        { label: 'About Me', href: '/about-me'}
+      ]
+    },
     { label: 'Edit', onClick: "alert('Edit menu - Under construction!')" },
     { label: 'View', onClick: "alert('View menu - Under construction!')" },
     { 
       label: 'Go', 
       dropdown: [
-        { label: '🏠 Homepage', href: '/' },
-        { label: '📝 Blog Archive', href: '/blog' },
-        { label: '📧 Guestbook (Soon)', href: '#' },
-        { label: '🔗 Cool Links (Soon)', href: '#' }
+        { label: 'Homepage', href: '/' },
+        { label: 'Blog Archive', href: '/blog' },
+        { label: 'Guestbook (Soon)', href: '#' },
+        { label: 'Cool Links (Soon)', href: '#' }
       ]
     },
     { label: 'Bookmarks', onClick: "alert('Bookmarks menu - Under construction!')" },
-    { label: 'Help', onClick: "alert('Help menu - Under construction!')" }
+    { 
+      label: 'Help',
+      dropdown: [
+        { label: 'Style Guide', href: '/style-guide' }
+      ] 
+    }
   ],
   windowId = 'mainWindow'
 } = Astro.props;
@@ -46,7 +57,7 @@ const {
     </div>
     <div class="window-controls">
       <div class="window-btn minimize" onclick={`minimizeWindow('${windowId}')`} title="Minimize">_</div>
-      <div class="window-btn maximize" onclick={`maximizeWindow('${windowId}')`} title="Maximize">□</div>
+      <div class="window-btn maximize" onclick={`maximizeWindow('${windowId}')`} title="Maximize Content">□</div>
       <div class="window-btn close" onclick={`closeWindow('${windowId}')`} title="Close">×</div>
     </div>
   </div>
@@ -80,9 +91,14 @@ const {
   </div>
 
   <div class="content-area">
-    <slot />
+    <div class="content-wrapper">
+      <slot />
+    </div>
   </div>
 </div>
+
+<!-- Windows 95 Start Menu -->
+<StartMenu />
 
 <script>
   import './Window.ts';

@@ -1,10 +1,93 @@
 // Two-stage boot process: Power Button → Audio + Wait → BIOS Screen → Main Site
+// With localStorage support to automatically skip intro for returning users
+
+// localStorage key for tracking user visits
+const STORAGE_KEY = 'nateageek-site-visited';
+const STORAGE_DATA_KEY = 'nateageek-site-data';
+
+interface SiteData {
+  hasVisited: boolean;
+  visitCount: number;
+  lastVisit: string;
+}
+
+// Get or initialize site data
+function getSiteData(): SiteData {
+  try {
+    const stored = localStorage.getItem(STORAGE_DATA_KEY);
+    if (stored) {
+      return JSON.parse(stored);
+    }
+  } catch (error) {
+    console.log('Error reading site data:', error);
+  }
+  
+  // Default data for first-time visitors
+  return {
+    hasVisited: false,
+    visitCount: 0,
+    lastVisit: ''
+  };
+}
+
+// Save site data to localStorage
+function saveSiteData(data: SiteData): void {
+  try {
+    localStorage.setItem(STORAGE_DATA_KEY, JSON.stringify(data));
+    // Also set the simple flag for backward compatibility
+    localStorage.setItem(STORAGE_KEY, 'true');
+  } catch (error) {
+    console.log('Error saving site data:', error);
+  }
+}
+
+// Mark that user has completed the boot sequence
+function markBootCompleted(): void {
+  const data = getSiteData();
+  data.hasVisited = true;
+  data.visitCount += 1;
+  data.lastVisit = new Date().toISOString();
+  saveSiteData(data);
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   const powerBtn = document.getElementById('powerBtn') as HTMLButtonElement;
   const powerScreen = document.getElementById('powerScreen');
   const biosScreen = document.getElementById('biosScreen');
   const startupAudio = document.getElementById('startupAudio') as HTMLAudioElement;
   
+  // Check if user has visited before and auto-skip if they have
+  const siteData = getSiteData();
+  if (siteData.hasVisited && siteData.visitCount > 0) {
+    // Auto-skip for returning users
+    console.log('Returning user detected - auto-skipping intro');
+    
+    // Update visit count
+    const updatedData = getSiteData();
+    updatedData.visitCount += 1;
+    updatedData.lastVisit = new Date().toISOString();
+    saveSiteData(updatedData);
+    
+    // Skip straight to main content without fade effects
+    const introScreen = document.getElementById('introScreen');
+    const mainContent = document.getElementById('mainContent');
+    
+    if (introScreen && mainContent) {
+      // Hide intro immediately
+      introScreen.style.display = 'none';
+      
+      // Show main content immediately without any animations
+      mainContent.style.display = 'block';
+      mainContent.style.opacity = '1';
+      mainContent.style.transition = 'none';
+    }
+    
+    return;
+  }
+
+  // First-time user - show normal intro sequence
+  console.log('First-time user - showing full intro');
+
   // Handle power button click
   if (powerBtn && powerScreen && biosScreen && startupAudio) {
     powerBtn.addEventListener('click', () => {
@@ -74,6 +157,9 @@ document.addEventListener('DOMContentLoaded', () => {
       if (currentLine >= biosLines.length || !systemInfo) {
         // All lines printed, complete boot process
         setTimeout(() => {
+          // Mark that user has completed the boot sequence
+          markBootCompleted();
+          
           if ((window as any).bootComplete && typeof (window as any).bootComplete === 'function') {
             (window as any).bootComplete();
           }

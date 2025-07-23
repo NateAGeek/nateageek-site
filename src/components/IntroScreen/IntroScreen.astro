@@ -4,12 +4,13 @@ import './IntroScreen.css';
 export interface Props {
   onBootComplete: string;
   powerButtonSrc?: string;
+  skipIntro?: boolean;
 }
 
-const { onBootComplete, powerButtonSrc = '/imgs/power-button.gif' } = Astro.props;
+const { onBootComplete, powerButtonSrc = '/imgs/power-button.gif', skipIntro = false } = Astro.props;
 ---
 
-<div class="intro-screen" id="introScreen">
+<div class="intro-screen" id="introScreen" data-skip-intro={skipIntro}>
   <!-- Audio element for startup sound -->
   <audio id="startupAudio" preload="auto">
     <source src="/audios/computer-startup.mp3" type="audio/mpeg">

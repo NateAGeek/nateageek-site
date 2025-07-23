@@ -1,0 +1,76 @@
+---
+import './StartMenu.css';
+
+export interface Props {
+  isOpen?: boolean;
+  onClose?: string;
+}
+
+const { 
+  isOpen = false,
+  onClose = 'closeStartMenu()'
+} = Astro.props;
+---
+
+<div class="taskbar">
+  <div class="start-button" onclick="toggleStartMenu()">
+    <img src="/imgs/earthanim1.gif" alt="Start" class="start-icon" />
+    Start
+  </div>
+  <div class="taskbar-time" id="taskbar-time"></div>
+</div>
+
+<div class={`start-menu ${isOpen ? 'open' : ''}`} id="startMenu">
+  <div class="start-menu-header">
+    <div class="start-menu-banner">
+      <span class="start-menu-title">NateAGeek 95</span>
+    </div>
+  </div>
+  
+  <div class="start-menu-items">
+    <div class="start-menu-item" onclick="location.href='/'">
+      <img src="/imgs/earthanim1.gif" alt="Home" class="menu-icon" />
+      <span>Homepage</span>
+    </div>
+    
+    <div class="start-menu-item" onclick="location.href='/blog'">
+      <img src="/imgs/science_rocks.gif" alt="Blog" class="menu-icon" />
+      <span>Blog Archive</span>
+    </div>
+    
+    <div class="start-menu-item" onclick="location.href='/style-guide'">
+      <img src="/imgs/cool.gif" alt="Style Guide" class="menu-icon" />
+      <span>Style Guide</span>
+    </div>
+    
+    <div class="start-menu-separator"></div>
+    
+    <div class="start-menu-item" onclick="alert('Guestbook coming soon!')">
+      <img src="/imgs/anime akin.gif" alt="Guestbook" class="menu-icon" />
+      <span>Guestbook</span>
+    </div>
+    
+    <div class="start-menu-item" onclick="alert('Cool Links coming soon!')">
+      <img src="/imgs/lightningbanner.gif" alt="Links" class="menu-icon" />
+      <span>Cool Links</span>
+    </div>
+    
+    <div class="start-menu-separator"></div>
+    
+    <div class="start-menu-item" onclick="alert('About NateAGeek')">
+      <img src="/imgs/asianman.gif" alt="About" class="menu-icon" />
+      <span>About Me</span>
+    </div>
+    
+    <div class="start-menu-item shutdown" onclick="closeWindow('mainWindow')">
+      <img src="/imgs/science happy man.gif" alt="Shutdown" class="menu-icon" />
+      <span>Shut Down...</span>
+    </div>
+  </div>
+</div>
+
+<div class="start-menu-overlay" id="startMenuOverlay" onclick="closeStartMenu()"></div>
+
+<script>
+  import './StartMenu.ts';
+</script>

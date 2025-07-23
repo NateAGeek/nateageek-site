@@ -1,0 +1,256 @@
+---
+import Layout from '../components/Layout/Layout.astro';
+import Window from '../components/Window/Window.astro';
+import RetroButton from '../components/RetroButton/RetroButton.astro';
+import WelcomeBox from '../components/WelcomeBox/WelcomeBox.astro';
+import Marquee from '../components/Marquee/Marquee.astro';
+import GifGallery from '../components/GifGallery/GifGallery.astro';
+import IntroScreen from '../components/IntroScreen/IntroScreen.astro';
+
+const sampleGifs = [
+  { src: '/imgs/earthanim1.gif', alt: 'Earth Animation', caption: 'Earth GIF' },
+  { src: '/imgs/science_rocks.gif', alt: 'Science Rocks', caption: 'Science!' },
+  { src: '/imgs/cool.gif', alt: 'Cool GIF', caption: 'Cool' },
+  { src: '/imgs/lightningbanner.gif', alt: 'Lightning Banner', caption: 'Lightning!' },
+  { src: '/imgs/science happy man.gif', alt: 'Happy Science Man', caption: 'Science Happy!' },
+  { src: '/imgs/anime akin.gif', alt: 'Anime Animation', caption: 'Anime Akin' }
+];
+
+const marqueeContent = [
+  { gifSrc: '/imgs/cool.gif', gifAlt: 'Cool' },
+  { text: 'Welcome to the Component Style Guide!' },
+  { gifSrc: '/imgs/earthanim1.gif', gifAlt: 'Earth' },
+  { text: 'All components are imported and reusable!' },
+  { gifSrc: '/imgs/science_rocks.gif', gifAlt: 'Science' },
+  { text: 'This is the proper way to build a design system!' },
+  { gifSrc: '/imgs/cool.gif', gifAlt: 'Cool' }
+];
+
+const menuItems = [
+  { label: 'File', onClick: "alert('File menu clicked!')" },
+  { label: 'Edit', onClick: "alert('Edit menu clicked!')" },
+  { 
+    label: 'Navigate', 
+    dropdown: [
+      { label: '🏠 Home', href: '/' },
+      { label: '📝 Blog', href: '/blog' },
+      { label: '🎨 Style Guide', href: '/style-guide' }
+    ]
+  },
+  { label: 'Help', onClick: "alert('Help menu clicked!')" }
+];
+
+const buttonMenuItems = [
+  { label: 'Buttons', onClick: "alert('This is a button menu!')" },
+  { label: 'Actions', onClick: "alert('Actions menu!')" }
+];
+---
+
+<Layout title="Style Guide - NateAGeek's Cyber Zone">
+  <Window title="Component Style Guide - Design System" menuItems={menuItems}>
+    
+    <!-- Header Section -->
+    <div style="text-align: center; margin-bottom: 40px; padding: 20px; background: linear-gradient(45deg, #ff0080, #00ffff); border: 2px outset #c0c0c0; color: white; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">
+      <h1 style="font-size: 2.5em; margin: 0 0 15px 0; animation: pulse 2s infinite;">🎨 Component Style Guide 🎨</h1>
+      <p style="font-size: 1.2em; margin: 0;">Welcome to the component-based design system for NateAGeek's Cyber Zone!</p>
+    </div>
+
+    <!-- Window Component Section -->
+    <section style="margin: 40px 0; padding: 20px; background: #f0f0f0; border: 2px inset #c0c0c0;">
+      <h2 style="color: #0080ff; border-bottom: 2px solid #0080ff; padding-bottom: 10px; margin-bottom: 20px;">🖼️ Window Component</h2>
+      <p>The main container component that provides the classic Windows 95 look with title bar, menu, and window controls.</p>
+      
+      <h3 style="color: #ff0080; margin: 20px 0 10px 0;">Basic Window</h3>
+      <Window title="Sample Window" windowId="sampleWindow1">
+        <p>This is content inside a basic window component.</p>
+      </Window>
+      
+      <h3 style="color: #ff0080; margin: 20px 0 10px 0;">Window with Custom Menu</h3>
+      <Window title="Window with Menu" menuItems={buttonMenuItems} windowId="sampleWindow2">
+        <p>This window has a custom menu bar with dropdown options.</p>
+      </Window>
+    </section>
+
+    <!-- RetroButton Component Section -->
+    <section style="margin: 40px 0; padding: 20px; background: #f0f0f0; border: 2px inset #c0c0c0;">
+      <h2 style="color: #0080ff; border-bottom: 2px solid #0080ff; padding-bottom: 10px; margin-bottom: 20px;">🔲 RetroButton Component</h2>
+      <p>Classic Windows 95 style buttons with outset/inset borders and hover effects.</p>
+      
+      <div style="display: flex; flex-wrap: wrap; gap: 15px; margin: 20px 0;">
+        <RetroButton text="Default Button" />
+        <RetroButton text="With Icon" iconSrc="/imgs/earthanim1.gif" iconAlt="Earth" />
+        <RetroButton text="Click Me!" onClick="alert('Button clicked!')" />
+        <RetroButton text="Science!" iconSrc="/imgs/science_rocks.gif" iconAlt="Science" onClick="alert('Science rocks!')" />
+      </div>
+    </section>
+
+    <!-- WelcomeBox Component Section -->
+    <section style="margin: 40px 0; padding: 20px; background: #f0f0f0; border: 2px inset #c0c0c0;">
+      <h2 style="color: #0080ff; border-bottom: 2px solid #0080ff; padding-bottom: 10px; margin-bottom: 20px;">📋 WelcomeBox Component</h2>
+      <p>A centered content box with customizable title and content, perfect for announcements or welcome messages.</p>
+      
+      <h3 style="color: #ff0080; margin: 20px 0 10px 0;">Basic Welcome Box</h3>
+      <WelcomeBox 
+        title="Welcome to My Site" 
+        content="This is a basic welcome box without icons."
+      />
+      
+      <h3 style="color: #ff0080; margin: 20px 0 10px 0;">Welcome Box with Icons</h3>
+      <WelcomeBox 
+        title="Animated Welcome" 
+        titleIconSrc="/imgs/earthanim1.gif" 
+        titleIconAlt="Earth"
+        content="This welcome box includes animated GIF icons on both sides of the title for extra flair!"
+      />
+      
+      <h3 style="color: #ff0080; margin: 20px 0 10px 0;">Science Theme</h3>
+      <WelcomeBox 
+        title="Science Rocks!" 
+        titleIconSrc="/imgs/science_rocks.gif" 
+        titleIconAlt="Science"
+        content="Perfect for science-themed content with animated science GIFs!"
+      />
+    </section>
+
+    <!-- Marquee Component Section -->
+    <section style="margin: 40px 0; padding: 20px; background: #f0f0f0; border: 2px inset #c0c0c0;">
+      <h2 style="color: #0080ff; border-bottom: 2px solid #0080ff; padding-bottom: 10px; margin-bottom: 20px;">🎭 Marquee Component</h2>
+      <p>Classic scrolling text with support for both text and GIF content.</p>
+      
+      <h3 style="color: #ff0080; margin: 20px 0 10px 0;">Standard Speed</h3>
+      <Marquee content={marqueeContent} />
+      
+      <h3 style="color: #ff0080; margin: 20px 0 10px 0;">Fast Speed</h3>
+      <Marquee content={marqueeContent} speed="5s" />
+      
+      <h3 style="color: #ff0080; margin: 20px 0 10px 0;">Slow Speed</h3>
+      <Marquee content={marqueeContent} speed="15s" />
+      
+      <h3 style="color: #ff0080; margin: 20px 0 10px 0;">Text Only</h3>
+      <Marquee content={[
+        { text: 'This is a text-only marquee!' },
+        { text: 'No GIFs here, just classic scrolling text!' },
+        { text: 'Perfect for announcements!' }
+      ]} />
+    </section>
+
+    <!-- GifGallery Component Section -->
+    <section style="margin: 40px 0; padding: 20px; background: #f0f0f0; border: 2px inset #c0c0c0;">
+      <h2 style="color: #0080ff; border-bottom: 2px solid #0080ff; padding-bottom: 10px; margin-bottom: 20px;">🖼️ GifGallery Component</h2>
+      <p>A responsive gallery component for displaying animated GIFs with captions.</p>
+      
+      <h3 style="color: #ff0080; margin: 20px 0 10px 0;">Full Gallery</h3>
+      <GifGallery gifs={sampleGifs} />
+      
+      <h3 style="color: #ff0080; margin: 20px 0 10px 0;">Smaller Gallery</h3>
+      <GifGallery gifs={sampleGifs.slice(0, 3)} />
+    </section>
+
+    <!-- IntroScreen Component Section -->
+    <section style="margin: 40px 0; padding: 20px; background: #f0f0f0; border: 2px inset #c0c0c0;">
+      <h2 style="color: #0080ff; border-bottom: 2px solid #0080ff; padding-bottom: 10px; margin-bottom: 20px;">🖥️ IntroScreen Component</h2>
+      <p>A retro computer boot screen with power button and BIOS sequence. Click the power button to see the animation!</p>
+      
+      <div style="border: 2px inset #c0c0c0; padding: 20px; background: #000; height: 400px; position: relative;">
+        <IntroScreen onBootComplete="alert('Boot sequence complete!')" />
+      </div>
+      
+      <p style="margin-top: 15px; color: #666; font-style: italic;">
+        <strong>Note:</strong> This component includes sound effects and animations. Click the power button to experience the full boot sequence.
+      </p>
+    </section>
+
+    <!-- Layout Component Section -->
+    <section style="margin: 40px 0; padding: 20px; background: #f0f0f0; border: 2px inset #c0c0c0;">
+      <h2 style="color: #0080ff; border-bottom: 2px solid #0080ff; padding-bottom: 10px; margin-bottom: 20px;">📐 Layout Component</h2>
+      <p>The root layout component that provides the HTML structure, animated background, and global styling.</p>
+      
+      <div style="background: #c0c0c0; border: 2px inset #c0c0c0; padding: 15px; margin: 10px 0;">
+        <h3 style="color: #ff0080; margin: 0 0 10px 0;">Features:</h3>
+        <ul style="margin: 0; padding-left: 20px;">
+          <li>Animated teal background with moving dots</li>
+          <li>Retro font stack (MS Sans Serif, Comic Sans MS)</li>
+          <li>Responsive design</li>
+          <li>Proper meta tags and SEO setup</li>
+          <li>Favicon support</li>
+        </ul>
+      </div>
+      
+      <div style="background: #c0c0c0; border: 2px inset #c0c0c0; padding: 15px; margin: 10px 0;">
+        <h3 style="color: #ff0080; margin: 0 0 10px 0;">Usage:</h3>
+        <code style="background: #f4f4f4; padding: 10px; display: block; border: 1px solid #ddd;">
+          &lt;Layout title="Your Page Title"&gt;<br>
+          &nbsp;&nbsp;Your page content here...<br>
+          &lt;/Layout&gt;
+        </code>
+      </div>
+    </section>
+
+    <!-- Component Combination Examples -->
+    <section style="margin: 40px 0; padding: 20px; background: #f0f0f0; border: 2px inset #c0c0c0;">
+      <h2 style="color: #0080ff; border-bottom: 2px solid #0080ff; padding-bottom: 10px; margin-bottom: 20px;">🧩 Component Combinations</h2>
+      <p>Examples of how components work together to create rich user interfaces.</p>
+      
+      <h3 style="color: #ff0080; margin: 20px 0 10px 0;">Complex Window Layout</h3>
+      <Window title="Complex Example" menuItems={menuItems} windowId="complexWindow">
+        <WelcomeBox 
+          title="Featured Content" 
+          titleIconSrc="/imgs/lightningbanner.gif" 
+          titleIconAlt="Lightning"
+          content="This is a welcome box inside a window with a custom menu!"
+        />
+        
+        <div style="margin: 20px 0;">
+          <h4 style="color: #ff0080;">Action Buttons</h4>
+          <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+            <RetroButton text="Save" iconSrc="/imgs/earthanim1.gif" iconAlt="Save" onClick="alert('Save clicked!')" />
+            <RetroButton text="Load" iconSrc="/imgs/cool.gif" iconAlt="Load" onClick="alert('Load clicked!')" />
+            <RetroButton text="Exit" onClick="alert('Exit clicked!')" />
+          </div>
+        </div>
+        
+        <Marquee content={[
+          { text: 'This marquee is inside a window component!' },
+          { gifSrc: '/imgs/science_rocks.gif', gifAlt: 'Science' },
+          { text: 'Components can be nested and combined!' }
+        ]} />
+      </Window>
+    </section>
+
+    <!-- Usage Guidelines -->
+    <section style="margin: 40px 0; padding: 20px; background: #f0f0f0; border: 2px inset #c0c0c0;">
+      <h2 style="color: #0080ff; border-bottom: 2px solid #0080ff; padding-bottom: 10px; margin-bottom: 20px;">📚 Usage Guidelines</h2>
+      
+      <div style="background: #c0c0c0; border: 2px inset #c0c0c0; padding: 15px; margin: 10px 0;">
+        <h3 style="color: #ff0080; margin: 0 0 10px 0;">Best Practices:</h3>
+        <ul style="margin: 0; padding-left: 20px;">
+          <li>Always wrap page content in a <code>Window</code> component</li>
+          <li>Use <code>WelcomeBox</code> for important announcements</li>
+          <li>Combine <code>RetroButton</code> with icons for better UX</li>
+          <li>Use <code>Marquee</code> sparingly to avoid overwhelming users</li>
+          <li>Optimize GIF sizes for better <code>GifGallery</code> performance</li>
+        </ul>
+      </div>
+      
+      <div style="background: #c0c0c0; border: 2px inset #c0c0c0; padding: 15px; margin: 10px 0;">
+        <h3 style="color: #ff0080; margin: 0 0 10px 0;">Component Props:</h3>
+        <ul style="margin: 0; padding-left: 20px;">
+          <li><strong>Window:</strong> title, menuItems, windowId</li>
+          <li><strong>RetroButton:</strong> text, onClick, iconSrc, iconAlt</li>
+          <li><strong>WelcomeBox:</strong> title, titleIconSrc, titleIconAlt, content</li>
+          <li><strong>Marquee:</strong> content, speed</li>
+          <li><strong>GifGallery:</strong> gifs (array with src, alt, caption)</li>
+          <li><strong>IntroScreen:</strong> onBootComplete, powerButtonSrc</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <div style="text-align: center; margin-top: 40px; padding: 20px; background: #c0c0c0; border: 2px inset #c0c0c0;">
+      <h2 style="color: #ff0080; margin: 0 0 15px 0;">🎉 Component System Complete!</h2>
+      <p style="margin: 0 0 20px 0;">This component-based style guide showcases all reusable UI elements. Import any component into your pages to maintain design consistency.</p>
+      <RetroButton text="Back to Home" onClick="window.location.href='/'" />
+    </div>
+
+  </Window>
+</Layout>

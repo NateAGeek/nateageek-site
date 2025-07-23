@@ -30,23 +30,19 @@ const marqueeContent = [
 ];
 ---
 
-<Layout title="Welcome to NateAGeek's Totally Rad Website!">
-  <!-- Intro Screen - shown initially -->
+<Layout title="Welcome to NateAGeek's!">
+  <!-- Intro Screen - conditionally shown based on localStorage -->
   <IntroScreen onBootComplete="bootComplete()" />
   
   <!-- Main Content - hidden initially -->
   <div id="mainContent" style="display: none;">
-    <Window title="NateAGeek's Cyber Zone - Netscape Navigator">
+    <Window title="NateAGeek's Website - Netscape Navigator">
     
     <h1 style="text-align: center; font-size: 3em; color: #ffff00; text-shadow: 3px 3px 6px #ff0080; animation: bounce 2s infinite; margin-bottom: 10px;">
       <img src="/imgs/lightningbanner.gif" alt="Lightning" style="height: 50px; width: 100%; vertical-align: middle;" />
       NateAGeek's Cyber Zone
       <img src="/imgs/lightningbanner.gif" alt="Lightning" style="height: 50px; width: 100%; vertical-align: middle;" />
     </h1>
-    
-    <div style="text-align: center; font-size: 1.5em; color: #00ffff; animation: blink 1s infinite; margin-bottom: 30px;">
-      *** ENTER AT YOUR OWN RISK ***
-    </div>
     
     <Marquee content={marqueeContent} />
     
@@ -102,12 +98,57 @@ const marqueeContent = [
       <p>This site is WebTV compatible!</p>
       <img src="/imgs/asianman.gif" alt="Asian Man GIF" style="max-width: 100px;" />
     </div>
+
+    <!-- Developer/Testing Section -->
+    <div style="text-align: center; margin-top: 20px; padding: 15px; background: #c0c0c0; border: 2px inset #c0c0c0;">
+      <details style="cursor: pointer;">
+        <summary style="font-weight: bold; color: #000; margin-bottom: 10px;">🔧 Developer Options</summary>
+        <div style="margin-top: 10px;">
+          <button onclick="resetIntroPreference()" style="background: #ff0080; color: white; border: 2px outset #c0c0c0; padding: 8px 16px; font-family: 'MS Sans Serif'; font-weight: bold; cursor: pointer; margin: 5px;">
+            Reset Intro Preference
+          </button>
+          <button onclick="console.log(getSiteData())" style="background: #0080ff; color: white; border: 2px outset #c0c0c0; padding: 8px 16px; font-family: 'MS Sans Serif'; font-weight: bold; cursor: pointer; margin: 5px;">
+            View Site Data (Console)
+          </button>
+          <p style="font-size: 12px; color: #666; margin: 10px 0 0 0;">
+            Use these buttons to test the intro screen behavior or view stored user data.
+          </p>
+        </div>
+      </details>
+    </div>
     
     </Window>
   </div>
 </Layout>
 
 <script>
+  // localStorage key for tracking user visits (for developer tools)
+  const STORAGE_DATA_KEY = 'nateageek-site-data';
+  
+  interface SiteData {
+    hasVisited: boolean;
+    visitCount: number;
+    lastVisit: string;
+  }
+
+  // Get site data from localStorage (for developer tools)
+  function getSiteData(): SiteData {
+    try {
+      const stored = localStorage.getItem(STORAGE_DATA_KEY);
+      if (stored) {
+        return JSON.parse(stored);
+      }
+    } catch (error) {
+      console.log('Error reading site data:', error);
+    }
+    
+    return {
+      hasVisited: false,
+      visitCount: 0,
+      lastVisit: ''
+    };
+  }
+
   // Boot completion handler for the intro screen
   function bootComplete() {
     const introScreen = document.getElementById('introScreen');
@@ -132,6 +173,19 @@ const marqueeContent = [
     }
   }
 
-  // Make function global so it can be called from the IntroScreen component
+  // Reset intro preference (for testing or user preference)
+  function resetIntroPreference() {
+    try {
+      localStorage.removeItem(STORAGE_DATA_KEY);
+      localStorage.removeItem('nateageek-site-visited');
+      alert('Intro preference reset! Refresh the page to see the intro again.');
+    } catch (error) {
+      console.log('Error resetting intro preference:', error);
+    }
+  }
+
+  // Make functions global
   (window as any).bootComplete = bootComplete;
+  (window as any).resetIntroPreference = resetIntroPreference;
+  (window as any).getSiteData = getSiteData;
 </script>

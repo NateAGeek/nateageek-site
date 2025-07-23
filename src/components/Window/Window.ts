@@ -3,23 +3,44 @@ function minimizeWindow(windowId: string) {
   const mainWindow = document.getElementById(windowId);
   if (mainWindow) {
     mainWindow.classList.toggle('minimized');
+    
+    // Update minimize button appearance
+    const minBtn = mainWindow.querySelector('.minimize');
+    if (minBtn) {
+      if (mainWindow.classList.contains('minimized')) {
+        minBtn.setAttribute('title', 'Restore');
+      } else {
+        minBtn.setAttribute('title', 'Minimize');
+      }
+    }
   }
 }
 
 function maximizeWindow(windowId: string) {
+  // Since window is already fullscreen, we could toggle content area margins
+  // or implement a different behavior like toggling menu bar visibility
   const mainWindow = document.getElementById(windowId);
   if (mainWindow) {
-    mainWindow.classList.toggle('expanded');
-    
-    // Update the maximize button appearance
-    const maxBtn = mainWindow.querySelector('.maximize');
-    if (maxBtn) {
-      if (mainWindow.classList.contains('expanded')) {
-        maxBtn.innerHTML = '❐'; // Restore icon
-        maxBtn.setAttribute('title', 'Restore');
+    const contentArea = mainWindow.querySelector('.content-area');
+    if (contentArea) {
+      const isMaximized = contentArea.classList.contains('maximized-content');
+      
+      if (isMaximized) {
+        contentArea.classList.remove('maximized-content');
       } else {
-        maxBtn.innerHTML = '□'; // Maximize icon
-        maxBtn.setAttribute('title', 'Maximize');
+        contentArea.classList.add('maximized-content');
+      }
+      
+      // Update the maximize button appearance
+      const maxBtn = mainWindow.querySelector('.maximize');
+      if (maxBtn) {
+        if (isMaximized) {
+          maxBtn.innerHTML = '□'; // Maximize icon
+          maxBtn.setAttribute('title', 'Maximize Content');
+        } else {
+          maxBtn.innerHTML = '❐'; // Restore icon
+          maxBtn.setAttribute('title', 'Restore Content');
+        }
       }
     }
   }

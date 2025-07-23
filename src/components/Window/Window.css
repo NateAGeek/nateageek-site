@@ -1,15 +1,19 @@
 .container {
-  max-width: 800px;
-  margin: 0 auto;
+  width: calc(100vw - 16px);
+  height: calc(100vh - 16px - 34px);
+  margin: 8px;
+  margin-bottom: 42px;
   background: #c0c0c0;
   border: 2px outset #c0c0c0;
   padding: 0;
   box-shadow: 2px 2px 5px #808080;
-}
-
-.container.expanded {
-  max-width: 100%;
-  margin: 0;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  box-sizing: border-box;
 }
 
 .title-bar {
@@ -21,6 +25,7 @@
   align-items: center;
   font-size: 11px;
   font-weight: bold;
+  flex-shrink: 0;
 }
 
 .title-text {
@@ -68,6 +73,18 @@
 
 .content-area {
   padding: 20px;
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background: white;
+  display: flex;
+  justify-content: center;
+}
+
+.content-wrapper {
+  max-width: 800px;
+  width: 100%;
+  min-height: 100%;
 }
 
 .menu-bar {
@@ -77,6 +94,7 @@
   font-size: 11px;
   display: flex;
   position: relative;
+  flex-shrink: 0;
 }
 
 .menu-item-container {
@@ -145,10 +163,56 @@
 }
 
 .minimized {
-  height: 30px;
+  height: auto;
+  min-height: 30px;
   overflow: hidden;
 }
 
-.minimized .content-area {
+.minimized .content-area,
+.minimized .menu-bar {
   display: none;
+}
+
+.content-area.maximized-content {
+  padding: 5px;
+}
+
+/* Add some visual feedback for scrollable content */
+.content-area::-webkit-scrollbar {
+  width: 18px;
+}
+
+.content-area::-webkit-scrollbar-track {
+  background: #c0c0c0;
+  border: 2px inset #c0c0c0;
+  margin: 2px;
+}
+
+.content-area::-webkit-scrollbar-thumb {
+  background: #c0c0c0;
+  border: 2px outset #c0c0c0;
+  margin: 1px;
+  min-height: 20px;
+}
+
+.content-area::-webkit-scrollbar-thumb:hover {
+  background: #a0a0a0;
+}
+
+.content-area::-webkit-scrollbar-thumb:active {
+  border: 2px inset #c0c0c0;
+}
+
+.content-area::-webkit-scrollbar-button {
+  background: #c0c0c0;
+  border: 2px outset #c0c0c0;
+  height: 16px;
+}
+
+.content-area::-webkit-scrollbar-button:hover {
+  background: #a0a0a0;
+}
+
+.content-area::-webkit-scrollbar-button:active {
+  border: 2px inset #c0c0c0;
 }

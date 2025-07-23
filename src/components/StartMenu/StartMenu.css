@@ -1,0 +1,153 @@
+.taskbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 30px;
+  background: #c0c0c0;
+  border: 2px outset #c0c0c0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 2000;
+  font-family: 'MS Sans Serif', sans-serif;
+  font-size: 11px;
+}
+
+.start-button {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  background: #c0c0c0;
+  border: 2px outset #c0c0c0;
+  cursor: pointer;
+  font-weight: bold;
+  height: 22px;
+  box-sizing: border-box;
+}
+
+.start-button:hover {
+  background: #d0d0d0;
+}
+
+.start-button:active,
+.start-button.active {
+  border: 2px inset #c0c0c0;
+  background: #a0a0a0;
+}
+
+.start-icon {
+  height: 14px;
+  width: 14px;
+}
+
+.taskbar-time {
+  padding: 4px 8px;
+  border: 1px inset #c0c0c0;
+  background: #c0c0c0;
+  font-size: 10px;
+  min-width: 60px;
+  text-align: center;
+}
+
+.start-menu {
+  position: fixed;
+  bottom: 34px;
+  left: 0;
+  width: 200px;
+  background: #c0c0c0;
+  border: 2px outset #c0c0c0;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+  z-index: 2001;
+  display: none;
+  font-family: 'MS Sans Serif', sans-serif;
+  font-size: 11px;
+}
+
+.start-menu.open {
+  display: block;
+}
+
+.start-menu-header {
+  background: linear-gradient(90deg, #0080ff, #004080);
+  height: 22px;
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+}
+
+.start-menu-banner {
+  color: white;
+  font-weight: bold;
+  font-size: 13px;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.start-menu-title {
+  transform: rotate(-90deg);
+  transform-origin: left bottom;
+  position: absolute;
+  left: 4px;
+  bottom: 50%;
+  white-space: nowrap;
+}
+
+.start-menu-items {
+  padding: 2px;
+}
+
+.start-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 6px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  margin: 1px;
+}
+
+.start-menu-item:hover {
+  background: #0080ff;
+  color: white;
+  border: 1px solid #004080;
+}
+
+.start-menu-item:active {
+  background: #004080;
+}
+
+.start-menu-item.shutdown:hover {
+  background: #ff0000;
+}
+
+.start-menu-item.shutdown:active {
+  background: #cc0000;
+}
+
+.menu-icon {
+  height: 16px;
+  width: 16px;
+  flex-shrink: 0;
+}
+
+.start-menu-separator {
+  height: 1px;
+  background: #808080;
+  margin: 2px 4px;
+  border-top: 1px solid #a0a0a0;
+}
+
+.start-menu-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1999;
+  display: none;
+}
+
+.start-menu.open + .start-menu-overlay {
+  display: block;
+}
