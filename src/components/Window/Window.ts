@@ -84,3 +84,86 @@ document.addEventListener('click', (event) => {
 (window as any).maximizeWindow = maximizeWindow;
 (window as any).closeWindow = closeWindow;
 (window as any).toggleDropdown = toggleDropdown;
+
+// Browser navigation functions
+function browserGoBack() {
+  if (window.history.length > 1) {
+    window.history.back();
+    updateUrlBar();
+  }
+}
+
+function browserGoForward() {
+  window.history.forward();
+  updateUrlBar();
+}
+
+function browserReload() {
+  window.location.reload();
+}
+
+function browserGoHome() {
+  window.location.href = '/';
+}
+
+function browserSearch() {
+  const query = prompt('Enter search terms:');
+  if (query) {
+    // Simulate a retro search engine
+    alert(`Searching for "${query}" using Yahoo! Search Engine...\n\n(This is a retro simulation - actual search not implemented)`);
+  }
+}
+
+function browserPrint() {
+  window.print();
+}
+
+function addBookmark() {
+  const url = window.location.href;
+  const title = document.title;
+  alert(`Bookmark added!\n\nTitle: ${title}\nURL: ${url}\n\n(This is a retro simulation - bookmark saved to your retro favorites!)`);
+}
+
+function handleUrlKeypress(event: KeyboardEvent) {
+  if (event.key === 'Enter') {
+    const input = event.target as HTMLInputElement;
+    const url = input.value;
+    
+    // Simple URL validation and navigation
+    if (url.startsWith('http://') || url.startsWith('https://') || url.startsWith('/')) {
+      try {
+        window.location.href = url;
+      } catch (e) {
+        alert('Invalid URL format. Please enter a valid web address.');
+      }
+    } else {
+      // Add http:// if missing
+      try {
+        window.location.href = 'http://' + url;
+      } catch (e) {
+        alert('Invalid URL format. Please enter a valid web address.');
+      }
+    }
+  }
+}
+
+function updateUrlBar() {
+  const urlInput = document.getElementById('urlInput') as HTMLInputElement;
+  if (urlInput) {
+    urlInput.value = window.location.href;
+  }
+}
+
+// Update URL bar when page loads
+window.addEventListener('load', updateUrlBar);
+window.addEventListener('popstate', updateUrlBar);
+
+// Make browser functions global
+(window as any).browserGoBack = browserGoBack;
+(window as any).browserGoForward = browserGoForward;
+(window as any).browserReload = browserReload;
+(window as any).browserGoHome = browserGoHome;
+(window as any).browserSearch = browserSearch;
+(window as any).browserPrint = browserPrint;
+(window as any).addBookmark = addBookmark;
+(window as any).handleUrlKeypress = handleUrlKeypress;

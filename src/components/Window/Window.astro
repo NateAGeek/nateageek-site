@@ -5,6 +5,7 @@ import StartMenu from '../StartMenu/StartMenu.astro';
 export interface Props {
   title: string;
   iconSrc?: string;
+  currentUrl?: string;
   menuItems?: Array<{
     label: string;
     onClick?: string;
@@ -18,30 +19,79 @@ export interface Props {
 
 const { 
   title, 
-  iconSrc = '/imgs/earthanim1.gif', 
+  iconSrc = '/imgs/earthanim1.gif',
+  currentUrl = 'http://www.nateageek.com/',
   menuItems = [
     {
       label: 'File',
       dropdown: [
-        { label: 'About Me', href: '/about-me'}
+        { label: 'New Window', href: '#' },
+        { label: 'Open Location...', href: '#' },
+        { label: 'Save As...', href: '#' },
+        { label: 'Print...', href: '#' },
+        { label: 'Close', href: '#' }
       ]
     },
-    { label: 'Edit', onClick: "alert('Edit menu - Under construction!')" },
-    { label: 'View', onClick: "alert('View menu - Under construction!')" },
+    {
+      label: 'Edit',
+      dropdown: [
+        { label: 'Copy', href: '#' },
+        { label: 'Paste', href: '#' },
+        { label: 'Find in Page...', href: '#' },
+        { label: 'Select All', href: '#' }
+      ]
+    },
+    {
+      label: 'View',
+      dropdown: [
+        { label: 'Reload', href: '#' },
+        { label: 'Stop', href: '#' },
+        { label: 'View Source', href: '#' },
+        { label: 'Zoom In', href: '#' },
+        { label: 'Zoom Out', href: '#' }
+      ]
+    },
     { 
       label: 'Go', 
       dropdown: [
-        { label: 'Homepage', href: '/' },
-        { label: 'Blog Archive', href: '/blog' },
-        { label: 'Guestbook (Soon)', href: '#' },
-        { label: 'Cool Links (Soon)', href: '#' }
+        { label: 'Back', href: '#' },
+        { label: 'Forward', href: '#' },
+        { label: 'Home', href: '/' },
+        { label: 'Search the Web', href: '#' }
       ]
     },
-    { label: 'Bookmarks', onClick: "alert('Bookmarks menu - Under construction!')" },
+    {
+      label: 'Bookmarks',
+      dropdown: [
+        { label: 'Add Bookmark...', href: '#' },
+        { label: 'Bookmark Manager...', href: '#' },
+        { label: 'Personal Toolbar Folder', href: '#' }
+      ]
+    },
+    {
+      label: 'Options',
+      dropdown: [
+        { label: 'General Preferences...', href: '#' },
+        { label: 'Security Preferences...', href: '#' },
+        { label: 'Advanced Preferences...', href: '#' }
+      ]
+    },
+    {
+      label: 'Directory',
+      dropdown: [
+        { label: 'Netscape\'s Home', href: '#' },
+        { label: 'What\'s New?', href: '#' },
+        { label: 'What\'s Cool?', href: '#' },
+        { label: 'Internet Search', href: '#' }
+      ]
+    },
     { 
       label: 'Help',
       dropdown: [
-        { label: 'Style Guide', href: '/style-guide' }
+        { label: 'About Netscape', href: '#' },
+        { label: 'Help Contents', href: '#' },
+        { label: 'Release Notes', href: '#' },
+        { label: 'Product Information and Support', href: '#' }
       ] 
     }
   ],
@@ -89,10 +139,75 @@ const {
       </div>
     ))}
   </div>
+  
+  <!-- Browser Navigation Bar -->
+  <div class="browser-nav">
+    <div class="nav-buttons">
+      <button class="nav-btn back-btn" onclick="browserGoBack()" title="Back">
+        <span>◀</span>
+      </button>
+      <button class="nav-btn forward-btn" onclick="browserGoForward()" title="Forward">
+        <span>▶</span>
+      </button>
+      <button class="nav-btn reload-btn" onclick="browserReload()" title="Reload">
+        <span>⟳</span>
+      </button>
+      <button class="nav-btn home-btn" onclick="browserGoHome()" title="Home">
+        <img src="/imgs/earthanim1.gif" alt="Home" class="home-icon" />
+      </button>
+      <button class="nav-btn search-btn" onclick="browserSearch()" title="Search">
+        <span>🔍</span>
+      </button>
+      <button class="nav-btn print-btn" onclick="browserPrint()" title="Print">
+        <span>🖨</span>
+      </button>
+    </div>
+    
+    <div class="url-bar-container">
+      <label class="url-label">Location:</label>
+      <div class="url-bar">
+        <input 
+          type="text" 
+          class="url-input" 
+          value={currentUrl}
+          id="urlInput"
+          onkeypress="handleUrlKeypress(event)"
+          readonly
+        />
+        <button class="bookmark-btn" onclick="addBookmark()" title="Add to Bookmarks">
+          <span>★</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Browser Toolbar -->
+  <div class="browser-toolbar">
+    <div class="toolbar-section">
+      <span class="toolbar-label">Bookmarks:</span>
+      <button class="bookmark-link" onclick="location.href='/'">🏠 Home</button>
+      <button class="bookmark-link" onclick="location.href='/blog'">📝 Blog</button>
+      <button class="bookmark-link" onclick="location.href='/style-guide'">🎨 Style Guide</button>
+      <button class="bookmark-link" onclick="alert('Cool Links coming soon!')">🔗 Cool Links</button>
+    </div>
+  </div>
 
   <div class="content-area">
     <div class="content-wrapper">
       <slot />
+    </div>
+  </div>
+  
+  <!-- Browser Status Bar -->
+  <div class="status-bar">
+    <div class="status-left">
+      <span id="statusText">Done</span>
+    </div>
+    <div class="status-right">
+      <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+      </div>
+      <span class="security-icon" title="Security: Normal">🔓</span>
     </div>
   </div>
 </div>
