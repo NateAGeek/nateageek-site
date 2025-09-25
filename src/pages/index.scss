@@ -1,0 +1,123 @@
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+  40% { transform: translateY(-10px); }
+  60% { transform: translateY(-5px); }
+}
+
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+/* IE 5.5 Browser Icons - Active */
+.ie-icon {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background-image: url('/imgs/ie_extracted_assets/ie_5.5_browser_icons_72x72_quads_active_transparent.png');
+  background-repeat: no-repeat;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+}
+
+/* IE 5.5 Browser Icons - Inactive */
+.ie-icon-inactive {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background-image: url('/imgs/ie_extracted_assets/ie_5.5_browser_icons_72x72_quads_inactive_transparent.png');
+  background-repeat: no-repeat;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+}
+
+/* Window Navigation Icons - Inactive by default, active on hover */
+.ie-nav-icon {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background-image: url('/imgs/ie_extracted_assets/ie_5.5_browser_icons_72x72_quads_inactive_transparent.png');
+  background-repeat: no-repeat;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+  cursor: pointer;
+  transition: background-image 0.1s ease;
+}
+
+.ie-nav-icon:hover {
+  background-image: url('/imgs/ie_extracted_assets/ie_5.5_browser_icons_72x72_quads_active_transparent.png');
+}
+
+.ie-icon-back { background-position: 0px 0px; }
+.ie-icon-forward { background-position: -16px 0px; }
+.ie-icon-stop { background-position: -38px 0px; }
+.ie-icon-refresh { background-position: -58px 0px; }
+.ie-icon-home { background-position: -78px 0px; }
+.ie-icon-search { background-position: -98px 0px; }
+.ie-icon-favorites { background-position: -118px 0px; }
+.ie-icon-print { background-position: -138px 0px; }
+.ie-icon-font-scale { background-position: -158px 0px; }
+.ie-icon-editor { background-position: -178px 0px; }
+.ie-icon-settings { background-position: -198px 0px; }
+.ie-icon-settings-window { background-position: -218px 0px; }
+.ie-icon-history { background-position: -238px 0px; }
+.ie-icon-email { background-position: -258px 0px; }
+.ie-icon-window-overlay { background-position: -278px 0px; }
+.ie-icon-document { background-position: -298px 0px; }
+
+/* Navigation icon positioning (shared for both active and inactive) */
+.ie-nav-icon.ie-icon-back { background-position: 0px 0px; }
+.ie-nav-icon.ie-icon-forward { background-position: -16px 0px; }
+.ie-nav-icon.ie-icon-stop { background-position: -38px 0px; }
+.ie-nav-icon.ie-icon-refresh { background-position: -58px 0px; }
+.ie-nav-icon.ie-icon-home { background-position: -78px 0px; }
+.ie-nav-icon.ie-icon-search { background-position: -98px 0px; }
+.ie-nav-icon.ie-icon-favorites { background-position: -118px 0px; }
+.ie-nav-icon.ie-icon-print { background-position: -138px 0px; }
+.ie-nav-icon.ie-icon-font-scale { background-position: -158px 0px; }
+.ie-nav-icon.ie-icon-editor { background-position: -178px 0px; }
+.ie-nav-icon.ie-icon-settings { background-position: -198px 0px; }
+.ie-nav-icon.ie-icon-settings-window { background-position: -218px 0px; }
+.ie-nav-icon.ie-icon-history { background-position: -238px 0px; }
+.ie-nav-icon.ie-icon-email { background-position: -258px 0px; }
+.ie-nav-icon.ie-icon-window-overlay { background-position: -278px 0px; }
+.ie-nav-icon.ie-icon-document { background-position: -298px 0px; }
+
+/* Container for displaying all icons */
+.ie-icons-showcase {
+  background: #c0c0c0;
+  border: 2px inset #c0c0c0;
+  padding: 10px;
+  margin: 10px 0;
+}
+
+.ie-icons-showcase h3 {
+  margin-top: 0;
+  font-family: 'MS Sans Serif', sans-serif;
+  font-size: 12px;
+  color: #000;
+}
+
+.ie-icons-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.ie-icon-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.ie-icon-label {
+  font-family: 'MS Sans Serif', sans-serif;
+  font-size: 10px;
+  color: #000;
+  text-align: center;
+}

@@ -1,0 +1,85 @@
+---
+export interface Props {
+  icons?: string[];
+  showLabels?: boolean;
+}
+
+const { 
+  icons = ['back', 'forward', 'stop', 'refresh', 'home'], 
+  showLabels = false 
+} = Astro.props;
+
+// Icon labels mapping
+const iconLabels: Record<string, string> = {
+  back: 'Back',
+  forward: 'Forward',
+  stop: 'Stop',
+  refresh: 'Refresh',
+  home: 'Home',
+  search: 'Search',
+  favorites: 'Favorites',
+  print: 'Print',
+  'font-scale': 'Font Scale',
+  editor: 'Editor',
+  settings: 'Settings',
+  'settings-window': 'Settings Window',
+  history: 'History',
+  email: 'Email',
+  'window-overlay': 'Window Overlay',
+  document: 'Document'
+};
+---
+
+<div class="window-navigation-bar">
+  {icons.map(icon => (
+    <div class="nav-icon-container">
+      <div 
+        class={`ie-nav-icon ie-icon-${icon}`}
+        title={iconLabels[icon] || icon}
+        role="button"
+        tabindex="0"
+      ></div>
+      {showLabels && (
+        <span class="nav-icon-label">{iconLabels[icon] || icon}</span>
+      )}
+    </div>
+  ))}
+</div>
+
+<style>
+  .window-navigation-bar {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    background: #c0c0c0;
+    border: 1px inset #c0c0c0;
+    padding: 2px;
+  }
+
+  .nav-icon-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    padding: 1px;
+  }
+
+  .nav-icon-label {
+    font-family: 'MS Sans Serif', sans-serif;
+    font-size: 9px;
+    color: #000;
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  /* Accessibility */
+  .ie-nav-icon:focus {
+    outline: 1px dotted #000;
+    outline-offset: 1px;
+  }
+
+  .ie-nav-icon:focus-visible {
+    outline: 2px solid #0066cc;
+    outline-offset: 1px;
+  }
+</style>

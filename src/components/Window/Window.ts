@@ -107,15 +107,24 @@ function browserGoHome() {
 }
 
 function browserSearch() {
-  const query = prompt('Enter search terms:');
+  const query = prompt('Netscape Search - Enter search terms:');
   if (query) {
     // Simulate a retro search engine
-    alert(`Searching for "${query}" using Yahoo! Search Engine...\n\n(This is a retro simulation - actual search not implemented)`);
+    alert(`Searching for "${query}" using Excite Search Engine...\n\nConnecting to search.excite.com...\n\n(This is a retro simulation - actual search not implemented)`);
   }
 }
 
 function browserPrint() {
-  window.print();
+  alert('Netscape Navigator\n\nPrint job started...\nSending to default printer...\n\n(This would normally open the print dialog)');
+  // window.print(); // Uncomment for actual printing
+}
+
+function browserStop() {
+  alert('Stop - Network activity halted');
+  const statusText = document.getElementById('statusText');
+  if (statusText) {
+    statusText.textContent = 'Stopped';
+  }
 }
 
 function addBookmark() {
@@ -149,13 +158,52 @@ function handleUrlKeypress(event: KeyboardEvent) {
 
 function updateUrlBar() {
   const urlInput = document.getElementById('urlInput') as HTMLInputElement;
+  const statusText = document.getElementById('statusText');
+  
   if (urlInput) {
     urlInput.value = window.location.href;
+  }
+  
+  if (statusText) {
+    statusText.textContent = 'Document: Done';
+  }
+}
+
+// Simulate loading progress
+function simulateLoading() {
+  const progressBar = document.getElementById('progressBar');
+  const statusText = document.getElementById('statusText');
+  
+  if (progressBar && statusText) {
+    statusText.textContent = 'Connecting to server...';
+    progressBar.style.width = '20%';
+    
+    setTimeout(() => {
+      statusText.textContent = 'Receiving data...';
+      progressBar.style.width = '60%';
+    }, 500);
+    
+    setTimeout(() => {
+      statusText.textContent = 'Formatting document...';
+      progressBar.style.width = '90%';
+    }, 1000);
+    
+    setTimeout(() => {
+      statusText.textContent = 'Document: Done';
+      progressBar.style.width = '100%';
+      
+      setTimeout(() => {
+        progressBar.style.width = '0%';
+      }, 500);
+    }, 1500);
   }
 }
 
 // Update URL bar when page loads
-window.addEventListener('load', updateUrlBar);
+window.addEventListener('load', () => {
+  updateUrlBar();
+  simulateLoading();
+});
 window.addEventListener('popstate', updateUrlBar);
 
 // Make browser functions global
@@ -165,5 +213,6 @@ window.addEventListener('popstate', updateUrlBar);
 (window as any).browserGoHome = browserGoHome;
 (window as any).browserSearch = browserSearch;
 (window as any).browserPrint = browserPrint;
+(window as any).browserStop = browserStop;
 (window as any).addBookmark = addBookmark;
 (window as any).handleUrlKeypress = handleUrlKeypress;

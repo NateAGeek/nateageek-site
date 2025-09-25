@@ -6,7 +6,8 @@ import WelcomeBox from '../components/WelcomeBox/WelcomeBox.astro';
 import GifGallery from '../components/GifGallery/GifGallery.astro';
 import RetroButton from '../components/RetroButton/RetroButton.astro';
 import IntroScreen from '../components/IntroScreen/IntroScreen.astro';
-import './index.css';
+import WindowNavigationIcons from '../components/WindowNavigationIcons/WindowNavigationIcons.astro';
+import './index.scss';
 
 // Data for the GIF gallery
 const gifData = [
@@ -36,13 +37,19 @@ const marqueeContent = [
   
   <!-- Main Content - hidden initially -->
   <div id="mainContent" style="display: none;">
-    <Window title="NateAGeek's Website - Netscape Navigator">
+    <Window title="NateAGeek's Website - Nate's Website Explorer">
     
     <h1 style="text-align: center; font-size: 3em; color: #ffff00; text-shadow: 3px 3px 6px #ff0080; animation: bounce 2s infinite; margin-bottom: 10px;">
       <img src="/imgs/lightningbanner.gif" alt="Lightning" style="height: 50px; width: 100%; vertical-align: middle;" />
       NateAGeek's Cyber Zone
       <img src="/imgs/lightningbanner.gif" alt="Lightning" style="height: 50px; width: 100%; vertical-align: middle;" />
     </h1>
+    
+    <!-- Window Navigation Demo -->
+    <div style="margin: 20px 0; text-align: center;">
+      <h3 style="margin-bottom: 10px; color: #000; font-size: 14px;">🌐 Browser Navigation Bar (Hover to activate!)</h3>
+      <WindowNavigationIcons icons={['back', 'forward', 'stop', 'refresh', 'home', 'search', 'favorites']} />
+    </div>
     
     <Marquee content={marqueeContent} />
     
@@ -54,6 +61,80 @@ const marqueeContent = [
     />
     
     <GifGallery gifs={gifData} />
+    
+    <!-- IE 5.5 Browser Icons Showcase -->
+    <div class="ie-icons-showcase">
+      <h3>🖥️ Internet Explorer 5.5 Browser Icons Collection</h3>
+      <div class="ie-icons-row">
+        <div class="ie-icon-item">
+          <div class="ie-icon ie-icon-back"></div>
+          <span class="ie-icon-label">Back</span>
+        </div>
+        <div class="ie-icon-item">
+          <div class="ie-icon ie-icon-forward"></div>
+          <span class="ie-icon-label">Forward</span>
+        </div>
+        <div class="ie-icon-item">
+          <div class="ie-icon ie-icon-stop"></div>
+          <span class="ie-icon-label">Stop</span>
+        </div>
+        <div class="ie-icon-item">
+          <div class="ie-icon ie-icon-refresh"></div>
+          <span class="ie-icon-label">Refresh</span>
+        </div>
+        <div class="ie-icon-item">
+          <div class="ie-icon ie-icon-home"></div>
+          <span class="ie-icon-label">Home</span>
+        </div>
+        <div class="ie-icon-item">
+          <div class="ie-icon ie-icon-search"></div>
+          <span class="ie-icon-label">Search</span>
+        </div>
+        <div class="ie-icon-item">
+          <div class="ie-icon ie-icon-favorites"></div>
+          <span class="ie-icon-label">Favorites</span>
+        </div>
+        <div class="ie-icon-item">
+          <div class="ie-icon ie-icon-print"></div>
+          <span class="ie-icon-label">Print</span>
+        </div>
+        <div class="ie-icon-item">
+          <div class="ie-icon ie-icon-font-scale"></div>
+          <span class="ie-icon-label">Font Scale</span>
+        </div>
+        <div class="ie-icon-item">
+          <div class="ie-icon ie-icon-editor"></div>
+          <span class="ie-icon-label">Editor</span>
+        </div>
+        <div class="ie-icon-item">
+          <div class="ie-icon ie-icon-settings"></div>
+          <span class="ie-icon-label">Settings</span>
+        </div>
+        <div class="ie-icon-item">
+          <div class="ie-icon ie-icon-settings-window"></div>
+          <span class="ie-icon-label">Settings Window</span>
+        </div>
+        <div class="ie-icon-item">
+          <div class="ie-icon ie-icon-history"></div>
+          <span class="ie-icon-label">History</span>
+        </div>
+        <div class="ie-icon-item">
+          <div class="ie-icon ie-icon-email"></div>
+          <span class="ie-icon-label">Email</span>
+        </div>
+        <div class="ie-icon-item">
+          <div class="ie-icon ie-icon-window-overlay"></div>
+          <span class="ie-icon-label">Window Overlay</span>
+        </div>
+        <div class="ie-icon-item">
+          <div class="ie-icon ie-icon-document"></div>
+          <span class="ie-icon-label">Document</span>
+        </div>
+      </div>
+      <p style="font-size: 11px; color: #666; margin-top: 8px; font-style: italic;">
+        Extracted IE 5.5 browser icons - a piece of internet history! 🌐
+      </p>
+    </div>
     
     <div style="text-align: center; margin: 30px 0;">
       <RetroButton 

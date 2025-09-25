@@ -1,5 +1,5 @@
 ---
-import './Window.css';
+import './Window.scss';
 import StartMenu from '../StartMenu/StartMenu.astro';
 
 export interface Props {
@@ -19,79 +19,74 @@ export interface Props {
 
 const { 
   title, 
-  iconSrc = '/imgs/earthanim1.gif',
+  iconSrc = '/imgs/ie_extracted_assets/quad_icns_16x16.png',
   currentUrl = 'http://www.nateageek.com/',
   menuItems = [
     {
       label: 'File',
       dropdown: [
-        { label: 'New Window', href: '#' },
-        { label: 'Open Location...', href: '#' },
+        { label: 'New', href: '#' },
+        { label: 'Open...', href: '#' },
+        { label: 'Save', href: '#' },
         { label: 'Save As...', href: '#' },
+        { label: 'Page Setup...', href: '#' },
         { label: 'Print...', href: '#' },
+        { label: 'Send', href: '#' },
+        { label: 'Properties', href: '#' },
         { label: 'Close', href: '#' }
       ]
     },
     {
       label: 'Edit',
       dropdown: [
+        { label: 'Cut', href: '#' },
         { label: 'Copy', href: '#' },
         { label: 'Paste', href: '#' },
-        { label: 'Find in Page...', href: '#' },
-        { label: 'Select All', href: '#' }
+        { label: 'Select All', href: '#' },
+        { label: 'Find (on This Page)...', href: '#' }
       ]
     },
     {
       label: 'View',
       dropdown: [
-        { label: 'Reload', href: '#' },
+        { label: 'Toolbars', href: '#' },
+        { label: 'Status Bar', href: '#' },
+        { label: 'Explorer Bar', href: '#' },
+        { label: 'Go To', href: '#' },
         { label: 'Stop', href: '#' },
-        { label: 'View Source', href: '#' },
-        { label: 'Zoom In', href: '#' },
-        { label: 'Zoom Out', href: '#' }
+        { label: 'Refresh', href: '#' },
+        { label: 'Text Size', href: '#' },
+        { label: 'Encoding', href: '#' },
+        { label: 'Source', href: '#' },
+        { label: 'Full Screen', href: '#' }
       ]
     },
     { 
-      label: 'Go', 
+      label: 'Favorites', 
       dropdown: [
-        { label: 'Back', href: '#' },
-        { label: 'Forward', href: '#' },
-        { label: 'Home', href: '/' },
-        { label: 'Search the Web', href: '#' }
+        { label: 'Add to Favorites...', href: '#' },
+        { label: 'Organize Favorites...', href: '#' },
+        { label: 'Links', href: '#' }
       ]
     },
     {
-      label: 'Bookmarks',
+      label: 'Tools',
       dropdown: [
-        { label: 'Add Bookmark...', href: '#' },
-        { label: 'Bookmark Manager...', href: '#' },
-        { label: 'Personal Toolbar Folder', href: '#' }
-      ]
-    },
-    {
-      label: 'Options',
-      dropdown: [
-        { label: 'General Preferences...', href: '#' },
-        { label: 'Security Preferences...', href: '#' },
-        { label: 'Advanced Preferences...', href: '#' }
-      ]
-    },
-    {
-      label: 'Directory',
-      dropdown: [
-        { label: 'Netscape\'s Home', href: '#' },
-        { label: 'What\'s New?', href: '#' },
-        { label: 'What\'s Cool?', href: '#' },
-        { label: 'Internet Search', href: '#' }
+        { label: 'Mail and News', href: '#' },
+        { label: 'Windows Update', href: '#' },
+        { label: 'Synchronize...', href: '#' },
+        { label: 'Internet Options...', href: '#' }
       ]
     },
     { 
       label: 'Help',
       dropdown: [
-        { label: 'About Netscape', href: '#' },
-        { label: 'Help Contents', href: '#' },
-        { label: 'Release Notes', href: '#' },
-        { label: 'Product Information and Support', href: '#' }
+        { label: 'Contents and Index', href: '#' },
+        { label: 'Tip of the Day', href: '#' },
+        { label: 'For Netscape Users', href: '#' },
+        { label: 'Online Support', href: '#' },
+        { label: 'Send Feedback', href: '#' },
+        { label: 'About Internet Explorer', href: '#' }
       ] 
     }
   ],
@@ -102,7 +97,7 @@ const {
 <div class="container" id={windowId}>
   <div class="title-bar">
     <div class="title-text">
-      <img src={iconSrc} alt="Icon" class="title-icon" />
+      <img src={iconSrc} alt="Icon" class="title-icon" width="16" height="16"/>
       {title}
     </div>
     <div class="window-controls">
@@ -112,6 +107,7 @@ const {
     </div>
   </div>
   
+  <div class="window-action-container">
   <div class="menu-bar">
     {menuItems.map((item, index) => (
       <div class="menu-item-container">
@@ -121,7 +117,7 @@ const {
             data-dropdown={`dropdown-${index}`}
             onclick={`toggleDropdown('dropdown-${index}')`}
           >
-            {item.label} ▼
+            {item.label}
           </span>
         ) : (
           <span class="menu-item" onclick={item.onClick}>{item.label}</span>
@@ -143,28 +139,38 @@ const {
   <!-- Browser Navigation Bar -->
   <div class="browser-nav">
     <div class="nav-buttons">
-      <button class="nav-btn back-btn" onclick="browserGoBack()" title="Back">
-        <span>◀</span>
+      <button class="ie-nav-btn back-btn" onclick="browserGoBack()" title="Back">
+        <div class="ie-nav-icon ie-icon-back"></div>
       </button>
-      <button class="nav-btn forward-btn" onclick="browserGoForward()" title="Forward">
-        <span>▶</span>
+      <button class="ie-nav-btn forward-btn" onclick="browserGoForward()" title="Forward">
+        <div class="ie-nav-icon ie-icon-forward"></div>
       </button>
-      <button class="nav-btn reload-btn" onclick="browserReload()" title="Reload">
-        <span>⟳</span>
+      <button class="ie-nav-btn stop-btn" onclick="browserStop()" title="Stop">
+        <div class="ie-nav-icon ie-icon-stop"></div>
       </button>
-      <button class="nav-btn home-btn" onclick="browserGoHome()" title="Home">
-        <img src="/imgs/earthanim1.gif" alt="Home" class="home-icon" />
+      <button class="ie-nav-btn reload-btn" onclick="browserReload()" title="Refresh">
+        <div class="ie-nav-icon ie-icon-refresh"></div>
       </button>
-      <button class="nav-btn search-btn" onclick="browserSearch()" title="Search">
-        <span>🔍</span>
+      <button class="ie-nav-btn home-btn" onclick="browserGoHome()" title="Home">
+        <div class="ie-nav-icon ie-icon-home"></div>
       </button>
-      <button class="nav-btn print-btn" onclick="browserPrint()" title="Print">
-        <span>🖨</span>
+      <div class="nav-separator"></div>
+      <button class="ie-nav-btn search-btn" onclick="browserSearch()" title="Search">
+        <div class="ie-nav-icon ie-icon-search"></div>
+      </button>
+      <button class="ie-nav-btn favorites-btn" onclick="alert('Guide - What is Cool on the Web!')" title="Favorites">
+        <div class="ie-nav-icon ie-icon-favorites"></div>
+      </button>
+      <button class="ie-nav-btn print-btn" onclick="browserPrint()" title="Print">
+        <div class="ie-nav-icon ie-icon-print"></div>
+      </button>
+      <button class="ie-nav-btn history-btn" onclick="alert('History')" title="History">
+        <div class="ie-nav-icon ie-icon-history"></div>
       </button>
     </div>
     
     <div class="url-bar-container">
-      <label class="url-label">Location:</label>
+      <label class="url-label">Address</label>
       <div class="url-bar">
         <input 
           type="text" 
@@ -180,16 +186,6 @@ const {
       </div>
     </div>
   </div>
-
-  <!-- Browser Toolbar -->
-  <div class="browser-toolbar">
-    <div class="toolbar-section">
-      <span class="toolbar-label">Bookmarks:</span>
-      <button class="bookmark-link" onclick="location.href='/'">🏠 Home</button>
-      <button class="bookmark-link" onclick="location.href='/blog'">📝 Blog</button>
-      <button class="bookmark-link" onclick="location.href='/style-guide'">🎨 Style Guide</button>
-      <button class="bookmark-link" onclick="alert('Cool Links coming soon!')">🔗 Cool Links</button>
-    </div>
   </div>
 
   <div class="content-area">
@@ -207,7 +203,10 @@ const {
       <div class="progress-container">
         <div class="progress-bar" id="progressBar"></div>
       </div>
-      <span class="security-icon" title="Security: Normal">🔓</span>
+      <span class="security-icon" title="Security: Normal - No Encryption">🔓</span>
+      <span style="font-size: 10px; border: 1px inset #c0c0c0; padding: 1px 3px; background: #c0c0c0;">
+        Internet
+      </span>
     </div>
   </div>
 </div>

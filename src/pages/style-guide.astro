@@ -149,15 +149,31 @@ const buttonMenuItems = [
     <!-- IntroScreen Component Section -->
     <section style="margin: 40px 0; padding: 20px; background: #f0f0f0; border: 2px inset #c0c0c0;">
       <h2 style="color: #0080ff; border-bottom: 2px solid #0080ff; padding-bottom: 10px; margin-bottom: 20px;">🖥️ IntroScreen Component</h2>
-      <p>A retro computer boot screen with power button and BIOS sequence. Click the power button to see the animation!</p>
+      <p>A retro computer boot screen with power button and BIOS sequence that covers the full viewport when activated.</p>
       
-      <div style="border: 2px inset #c0c0c0; padding: 20px; background: #000; height: 400px; position: relative;">
-        <IntroScreen onBootComplete="alert('Boot sequence complete!')" />
+      <div style="border: 2px inset #c0c0c0; padding: 20px; background: #000; height: 400px; position: relative; display: flex; align-items: center; justify-content: center;">
+        <div style="color: #00ff00; font-family: monospace; text-align: center;">
+          <div style="margin-bottom: 20px;">
+            <div style="font-size: 2em; margin-bottom: 10px;">⏻</div>
+            <div>Power Button Preview</div>
+          </div>
+          <div style="font-size: 0.9em; opacity: 0.7;">
+            <div>NateAGeek Systems BIOS</div>
+            <div style="margin-top: 10px;">Boot sequence would appear here...</div>
+          </div>
+        </div>
       </div>
       
       <p style="margin-top: 15px; color: #666; font-style: italic;">
-        <strong>Note:</strong> This component includes sound effects and animations. Click the power button to experience the full boot sequence.
+        <strong>Note:</strong> This component is designed to overlay the entire screen with a fixed position. It includes sound effects and animations. Due to its full-screen nature, it's not displayed live in this style guide to prevent interference with other components.
       </p>
+      
+      <div style="background: #c0c0c0; border: 2px inset #c0c0c0; padding: 15px; margin: 10px 0;">
+        <h3 style="color: #ff0080; margin: 0 0 10px 0;">Usage:</h3>
+        <code style="background: #f4f4f4; padding: 10px; display: block; border: 1px solid #ddd;">
+          &lt;IntroScreen onBootComplete="handleBootComplete()" /&gt;
+        </code>
+      </div>
     </section>
 
     <!-- Layout Component Section -->

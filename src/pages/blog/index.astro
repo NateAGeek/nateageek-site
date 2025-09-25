@@ -2,7 +2,7 @@
 import Layout from '../../components/Layout/Layout.astro';
 import Window from '../../components/Window/Window.astro';
 import { getCollection } from 'astro:content';
-import './blog.css';
+import './blog.scss';
 
 const allBlogPosts = await getCollection('blog');
 const sortedPosts = allBlogPosts
@@ -66,7 +66,7 @@ const sortedPosts = allBlogPosts
           </div>
           
           <div class="post-footer">
-            <a href={`/blog/${post.slug}/`} class="read-more-btn">
+            <a href={`/blog/${post.slug}/`} class="blog-read-more-btn">
               <img src="/imgs/cool gif.gif" alt="Cool" style="height: 16px; vertical-align: middle;" />
               Read Full Post
               <img src="/imgs/cool gif.gif" alt="Cool" style="height: 16px; vertical-align: middle;" />
@@ -83,7 +83,7 @@ const sortedPosts = allBlogPosts
         <img src="/imgs/lightningbanner.gif" alt="Lightning" style="height: 20px; vertical-align: middle;" />
       </p>
       <div class="back-home">
-        <a href="/" class="home-btn">
+        <a href="/" class="blog-home-btn">
           🏠 Back to Homepage
         </a>
       </div>
